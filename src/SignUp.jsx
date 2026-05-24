@@ -2,19 +2,19 @@ import { useRef } from 'react'
 
 const SignUp = ({ onSignUp }) => {
 
-    const nombre = useRef()
-    const apellido = useRef()
-    const nombreUsuario = useRef()
-    const mail = useRef()
-    const contrasena = useRef()
+    const name = useRef()
+    const lastName = useRef()
+    const userName = useRef()
+    const email = useRef()
+    const password = useRef()
 
     const handleOnClickSignUp = () => {
         const newUser = {
-            nombre: nombre.current.value,
-            apellido: apellido.current.value,
-            nombreUsuario: nombreUsuario.current.value,
-            mail: mail.current.value,
-            contrasena: contrasena.current.value,
+            name: name.current.value,
+            lastName: lastName.current.value,
+            userName: userName.current.value,
+            email: email.current.value,
+            password: password.current.value,
         }
         onSignUp(newUser)
     }
@@ -22,11 +22,11 @@ const SignUp = ({ onSignUp }) => {
     return (
         <div>
             <h2>Registrarse</h2>
-            <input ref={nombre} type="text" placeholder="Nombre" />
-            <input ref={apellido} type="text" placeholder="Apellido" />
-            <input ref={nombreUsuario} type="text" placeholder="Nombre de usuario" />
-            <input ref={mail} type="email" placeholder="Email" />
-            <input ref={contrasena} type="password" placeholder="Contraseña" />
+            <input ref={name} type="text" placeholder="Nombre" />
+            <input ref={lastName} type="text" placeholder="Apellido" />
+            <input ref={userName} type="text" placeholder="Nombre de usuario" />
+            <input ref={email} type="email" placeholder="Email" />
+            <input ref={password} type="password" placeholder="Contraseña" />
             <button onClick={handleOnClickSignUp}>Crear cuenta</button>
         </div>
     )
