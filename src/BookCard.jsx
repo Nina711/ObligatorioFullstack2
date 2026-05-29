@@ -2,98 +2,82 @@ import { useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { deleteBook, updateBook } from "./features/bookSlice"
 
-const BookCard = ({ id, titulo, texto, prioridad }) => {
+const BookCard = ({ id, titulo, author, state }) => {
     const dispatch = useDispatch()
-
     const [editing, setEditing] = useState(false)
+
     const inputTituloRef = useRef()
-    const inputtextoRef = useRef()
+    const inputAuthorRef = useRef()
+    const inputStateRef  = useRef()
 
+    const handleSave = () => {
+        const newTitulo = inputTituloRef.current.value
+        const newAuthor = inputAuthorRef.current.value
 
-    const handleonClickUpdate = () => {
-        setEditing(true)
-    }
-
-    const handleOnClickGuardarEdicion = () => {
-        const titulo = inputTituloRef.current.value
-        const texto = inputtextoRef.current.value
-
-        if (!titulo || !texto) {
-            alert("Titulo y texto obligatorios")
+        if (!newTitulo || !newAuthor) {
+            alert("Título y autor son obligatorios")
             return
         }
 
         dispatch(updateBook({
             id,
-            modificado: { titulo, texto }
+            modificado: {
+                titulo: newTitulo,
+                author: newAuthor,
+                state: inputStateRef.current.value,
+            }
         }))
-
-        console.log(inputTituloRef.current.value)
-        console.log(inputtextoRef.current.value)
         setEditing(false)
     }
 
-    const handleOnClickEliminar = () => {
+    const handleDelete = () => {
         fetch(`https://notas-app-backend.vercel.app/v1/notas/${id}`, {
             method: "DELETE",
-            headers: {
-                Authorization: localStorage.getItem('token'),
-            }
+            headers: { Authorization: localStorage.getItem('token') },
         }).then(res => {
-            if (res.ok) {
-                dispatch(deleteBook(id))
-            } else {
-                alert("no se pudo borrar")
-            }
+            if (res.ok) dispatch(deleteBook(id))
+            else alert("No se pudo eliminar el libro")
         })
     }
 
-
-
     if (!editing) {
         return (
-            <article className="note">
-                <div className="note__header">
-                    <h3 className="note__title">{titulo || "Nota sin título"}</h3>
-                    <span className="note__priority">{prioridad ? 'Prioridad:' + prioridad : 'Sin prioridad'}</span>
-                </div>
-
-                <p className="note__content">
-                    {texto ? texto : 'Sin discripción'}
-                </p>
-
-                <div className="note__actions">
-                    <button onClick={handleonClickUpdate} className="btn btn--small">Editar</button>
-                    <button onClick={handleOnClickEliminar} className="btn btn--small btn--danger">Eliminar</button>
-                    <button className="btn btn--small btn--fav">⭐ Favorita</button>
-                </div>
-
-            </article>
-        )
-    } else {
-        return (
-            <article className="note note--editing">
-                <div className="note__header">
-                    <input className="note__input" ref={inputTituloRef} defaultValue={titulo} />
-                    <select defaultValue={prioridad} className="note__select">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                    </select>
-                </div>
-                <textarea ref={inputtextoRef} className="note__textarea">
-                    {texto}
-                </textarea>
-                <div className="note__actions">
-                    <button onClick={handleOnClickGuardarEdicion} className="btn btn--small btn--primary">Guardar</button>
-                    <button onClick={handleOnClickEliminar} className="btn btn--small btn--danger">Eliminar</button>
-                    <button className="btn btn--small btn--fav">⭐ Favorita</button>
+            <article className="book-card">
+                <div className="book-card__spine"></div>
+                <div className="book-card__body">
+                    <h3 className="book-card__title">{titulo || "Sin título"}</h3>
+                    <p className="book-card__author">{author || "Autor desconocido"}</p>
+                    <span className={`book-card__state book-card__state--${state?.toLowerCase()}`}>
+                        {state || "Sin estado"}
+                    </span>
+                    <div className="book-card__actions">
+                        <button onClick={() => setEditing(true)} className="btn btn--small">Editar</button>
+                        <button onClick={handleDelete} className="btn btn--small btn--danger">Eliminar</button>
+                    </div>
                 </div>
             </article>
         )
     }
 
-
+    return (
+        <article className="book-card book-card--editing">
+            <div className="book-card__spine"></div>
+            <div className="book-card__body">
+                <input ref={inputTituloRef} defaultValue={titulo} placeholder="Título" />
+                <input ref={inputAuthorRef} defaultValue={author} placeholder="Autor" />
+                <select ref={inputStateRef} defaultValue={state}>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Leyendo">Leyendo</option>
+                    <option value="Leido">Leido</option>
+                </select>
+                <div className="book-card__actions">
+                    <button onClick={handleSave} className="btn btn--small btn--primary">Guardar</button>
+                    <button onClick={() => setEditing(false)} className="btn btn--small">Cancelar</button>
+                    <button onClick={handleDelete} className="btn btn--small btn--danger">Eliminar</button>
+                </div>
+            </div>
+        </article>
+    )
 }
 
 export default BookCard

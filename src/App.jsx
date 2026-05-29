@@ -1,15 +1,22 @@
 import './App.css'
-import { store } from './store.js'
 import { Provider } from 'react-redux'
-import Login from './Login.jsx'
+import { store } from './store'
+import { BrowserRouter, Route, Routes } from 'react-router'
+import Dashboard from './Dashboard'
+import Login from './Login'
+import RutaNoEncontrada from './RutaNoEncontrada'
 
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
-      <Login>
-      </Login>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/' element={<Dashboard />} />
+          <Route path='*' element={<RutaNoEncontrada />} />
+        </Routes>
+      </BrowserRouter>
     </Provider>
   )
 }

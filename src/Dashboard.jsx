@@ -11,41 +11,48 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
-            navigate("/login")
+            navigate('/login')
             return
         }
-    }, [])
+    }, [navigate])
 
     useEffect(() => {
-        fetch('https://notas-app-backend.vercel.app/v1/notas?page=1&limit=10',
-            {
-                headers: {
-                    Authorization: localStorage.getItem('token'),
-                }
-            }
-        )
+        fetch('https://notas-app-backend.vercel.app/v1/books?page=1&limit=10', {
+            headers: {
+                Authorization: localStorage.getItem('token'),
+            },
+        })
             .then(res => {
-                if (res.ok) {
-                    return res.json()
-                }
-                else {
-                    if(res.status == 401) {
-                        localStorage.removeItem('token')
-                        navigate("/login")
-                        return
-                    }
-
+                if (res.ok) return res.json()
+                if (res.status === 401) {
+                    localStorage.removeItem('token')
+                    navigate('/login')
                 }
             })
-            .then(data => dispatch(setBooks(data.notas)))
-            .catch()
-            .finally()
-    }, [])
+            .then(data => {
+                if (data) dispatch(setBooks(data.books))
+            })
+            .catch(() => {})
+    }, [dispatch, navigate])
+
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        navigate('/login')
+    }
 
     return (
         <>
+            <header className="app-header">
+                <div className="app-header__brand">
+                    <span className="app-header__ornament">📚</span>
+                    <h1 className="app-header__title">Mi Biblioteca</h1>
+                    <span className="app-header__ornament">📚</span>
+                </div>
+                <button onClick={handleLogout} className="btn">Cerrar sesión</button>
+            </header>
+
             <main className="dashboard">
-                <AddBook/>
+                <AddBook />
                 <Books />
             </main>
         </>
