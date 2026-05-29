@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
-import { addBook } from './features/notasSlice'
+import { addBook } from './features/bookSlice'
 
 const AddBook = () => {
     const dispatch = useDispatch()
@@ -27,7 +27,6 @@ const AddBook = () => {
                 <input ref={titleRef} type="text" placeholder="Nombre del libro" />
                 <textarea ref={authorRef} placeholder="Autor del libro"></textarea>
 
-                <input ref={descriptionRef} type="text" placeholder="Descripción del libro" />
                 <textarea ref={descriptionRef} placeholder="Descripción del libro"></textarea>
 
                 <select ref={stateRef}>

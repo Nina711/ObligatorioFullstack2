@@ -1,9 +1,10 @@
-import { use, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setNotas } from './features/notasSlice'
+import { setBooks } from './features/bookSlice'
 import { useNavigate } from 'react-router'
+import AddBook from './AddBook'
+import Books from './Books'
 
-//for --> htmlFor
 const Dashboard = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -36,24 +37,17 @@ const Dashboard = () => {
 
                 }
             })
-            .then(data => dispatch(setNotas(data.notas)))
+            .then(data => dispatch(setBooks(data.notas)))
             .catch()
             .finally()
     }, [])
 
     return (
         <>
-            <Nav />
             <main className="dashboard">
-
-                <Estadisticas />
-                <Grafico />
                 <AddBook/>
-                <Notas />
-
+                <Books />
             </main>
-
-            <Footer />
         </>
     )
 }

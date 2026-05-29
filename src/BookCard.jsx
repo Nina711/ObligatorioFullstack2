@@ -11,7 +11,7 @@ const BookCard = ({ id, titulo, texto, prioridad }) => {
 
 
     const handleonClickUpdate = () => {
-        setEditando(true)
+        setEditing(true)
     }
 
     const handleOnClickGuardarEdicion = () => {
@@ -23,15 +23,14 @@ const BookCard = ({ id, titulo, texto, prioridad }) => {
             return
         }
 
-        //fnActualizarNota(id, {titulo, texto})
-        dispatch(actualizarNota({
+        dispatch(updateBook({
             id,
             modificado: { titulo, texto }
         }))
 
         console.log(inputTituloRef.current.value)
         console.log(inputtextoRef.current.value)
-        setEditando(false)
+        setEditing(false)
     }
 
     const handleOnClickEliminar = () => {
@@ -42,7 +41,7 @@ const BookCard = ({ id, titulo, texto, prioridad }) => {
             }
         }).then(res => {
             if (res.ok) {
-                dispatch(eliminarNota(id))
+                dispatch(deleteBook(id))
             } else {
                 alert("no se pudo borrar")
             }
@@ -51,7 +50,7 @@ const BookCard = ({ id, titulo, texto, prioridad }) => {
 
 
 
-    if (!editando) {
+    if (!editing) {
         return (
             <article className="note">
                 <div className="note__header">
@@ -64,7 +63,7 @@ const BookCard = ({ id, titulo, texto, prioridad }) => {
                 </p>
 
                 <div className="note__actions">
-                    <button onClick={handleOnClickEditar} className="btn btn--small">Editar</button>
+                    <button onClick={handleonClickUpdate} className="btn btn--small">Editar</button>
                     <button onClick={handleOnClickEliminar} className="btn btn--small btn--danger">Eliminar</button>
                     <button className="btn btn--small btn--fav">⭐ Favorita</button>
                 </div>
@@ -97,4 +96,4 @@ const BookCard = ({ id, titulo, texto, prioridad }) => {
 
 }
 
-export default TarjetaNota
+export default BookCard

@@ -9,11 +9,11 @@ export const bookSlice = createSlice({
     initialState,
     reducers: {
         setBooks: (state, action) => {
-            state.notas = action.payload
+            state.books = action.payload
         },
         addBook: (state, action) => {
             console.log(action)
-            const newBook = { ...action.payload, id: state.notas.length + 1 }
+            const newBook = { ...action.payload, id: state.books.length + 1 }
             console.log(newBook)
             state.books.push(newBook)
         },

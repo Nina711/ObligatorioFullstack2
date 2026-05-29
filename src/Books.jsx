@@ -11,7 +11,7 @@ const Books = () => {
             <h2>Mis libros</h2>
             <div className="books__grid">
                 {books.length > 0 ?
-                    books.map(books => <BookCard key={book._id} id={book._id} titulo={book.titulo} author={book.author} state={book.state} />)
+                    books.map(book => <BookCard key={book._id} id={book._id} titulo={book.titulo} author={book.author} state={book.state} />)
                     :
                     <p>No tienes libros agregados</p>
                 }

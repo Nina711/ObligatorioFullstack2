@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux'
 import Dashboard from './Dashboard'
-import { store } from './store/store'
+import { store } from './store'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import RutaNoEncontrada from './RutaNoEncontrada'
 import Login from './Login'
