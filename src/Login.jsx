@@ -1,18 +1,21 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
+import { API_URL } from './config'
 
 const Login = () => {
     const userNameRef = useRef()
     const passwordRef = useRef()
     const navigate    = useNavigate()
+    const [error, setError] = useState('')
 
     const handleOnClickLogin = () => {
+        setError('')
         const credentials = {
             nombreUsuario: userNameRef.current.value,
             contrasena:    passwordRef.current.value,
         }
 
-        fetch('https://notas-app-backend.vercel.app/v1/auth/login', {
+        fetch(`${API_URL}/v1/login`, {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify(credentials),
@@ -22,10 +25,11 @@ const Login = () => {
                 return res.json()
             })
             .then(data => {
-                localStorage.setItem('token', data.token)
+                const token = data.token || data
+                localStorage.setItem('token', token)
                 navigate('/dashboard')
             })
-            .catch(err => alert(err.message))
+            .catch(err => setError(err.message))
     }
 
     return (
@@ -47,8 +51,12 @@ const Login = () => {
                         <label>Contraseña</label>
                         <input ref={passwordRef} type="password" placeholder="Contraseña" />
                     </div>
+                    {error && <p className="login-card__error">{error}</p>}
                     <button onClick={handleOnClickLogin} className="btn btn--primary">
                         Ingresar
+                    </button>
+                    <button className="btn" onClick={() => navigate('/signup')}>
+                        No tengo cuenta — Registrarme
                     </button>
                 </div>
             </div>

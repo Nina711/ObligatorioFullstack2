@@ -186,6 +186,33 @@ textarea { resize: vertical; min-height: 80px; }
   margin-bottom: 4px;
   display: block;
 }
+.login-card__error {
+  color: var(--burgundy);
+  font-size: 13px;
+  font-style: italic;
+  border-left: 3px solid var(--burgundy);
+  padding-left: 8px;
+  margin: 0;
+}
+/* wide variant for signup */
+.login-card--wide { max-width: 520px; }
+
+.login-card__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 480px) { .login-card__row { grid-template-columns: 1fr; } }
+
+.login-card__success {
+  color: var(--gold-dark);
+  font-size: 13px;
+  font-style: italic;
+  border-left: 3px solid var(--gold-dark);
+  padding-left: 8px;
+  margin: 0;
+}
+
 .login-card__form .btn--primary {
   margin-top: 8px;
   width: 100%;
@@ -293,6 +320,13 @@ textarea { resize: vertical; min-height: 80px; }
   border-bottom: 1px solid var(--border);
   padding-bottom: 8px;
   margin-bottom: 2px;
+}
+.book-card__genre {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  margin: 0;
 }
 .book-card__author {
   font-size: 13px;

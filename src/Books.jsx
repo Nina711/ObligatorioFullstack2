@@ -16,8 +16,9 @@ const Books = () => {
                             key={book._id}
                             id={book._id}
                             titulo={book.titulo}
-                            author={book.author}
-                            state={book.state}
+                            autor={book.autor}
+                            genero={book.genero}
+                            estado={book.estado}
                         />
                     ))
                     : <p className="books-empty">No tienes libros en tu colección aún.</p>

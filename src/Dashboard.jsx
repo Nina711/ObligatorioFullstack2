@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setBooks } from './features/bookSlice'
 import { useNavigate } from 'react-router'
+import { API_URL } from './config'
 import AddBook from './AddBook'
 import Books from './Books'
 
@@ -17,7 +18,7 @@ const Dashboard = () => {
     }, [navigate])
 
     useEffect(() => {
-        fetch('https://notas-app-backend.vercel.app/v1/books?page=1&limit=10', {
+        fetch(`${API_URL}/v1/libros`, {
             headers: {
                 Authorization: localStorage.getItem('token'),
             },
@@ -30,7 +31,7 @@ const Dashboard = () => {
                 }
             })
             .then(data => {
-                if (data) dispatch(setBooks(data.books))
+                if (data) dispatch(setBooks(data.libros ?? data))
             })
             .catch(() => {})
     }, [dispatch, navigate])
