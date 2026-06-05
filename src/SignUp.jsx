@@ -1,42 +1,62 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { API_URL } from './config'
+import { useForm } from 'react-hook-form'
 
 const SignUp = () => {
-    const nombreRef        = useRef()
-    const apellidoRef      = useRef()
-    const nombreUsuarioRef = useRef()
-    const mailRef          = useRef()
-    const contrasenaRef    = useRef()
-    const navigate         = useNavigate()
-    const [error, setError]     = useState('')
+    const navigate = useNavigate()
+    const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
 
-    const handleOnClickSignUp = async () => {
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors, isValid }
+    } = useForm({
+        mode: 'onChange'
+    })
+
+    const onSubmit = async (data) => {
         setError('')
         setSuccess('')
+
         const newUser = {
-            nombre:        nombreRef.current.value,
-            apellido:      apellidoRef.current.value,
-            nombreUsuario: nombreUsuarioRef.current.value,
-            mail:          mailRef.current.value,
-            contrasena:    contrasenaRef.current.value,
+            nombre: data.name,
+            apellido: data.lastName,
+            nombreUsuario: data.userName,
+            mail: data.mail,
+            contrasena: data.password
         }
 
         try {
             const res = await fetch(`${API_URL}/v1/registrar`, {
-                method:  'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body:    JSON.stringify(newUser),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newUser)
             })
+
             if (!res.ok) {
-                const d = await res.json()
-                throw new Error(d.message || 'Error al registrarse')
+                const e = await res.json()
+                throw new Error(
+                    e.message || 'Error al registrarse'
+                )
             }
-            setSuccess('Cuenta creada. Redirigiendo...')
-            setTimeout(() => navigate('/login'), 1500)
-        } catch (err) {
-            setError(err.message)
+
+            const data = await res.json()
+
+            setSuccess('Cuenta creada correctamente Redirigiendo...')
+
+            localStorage.setItem('token', data.token)
+
+            setTimeout(() => {
+                navigate('/dashboard')
+            }, 1500)
+
+        } catch (e) {
+            setError(e.message)
         }
     }
 
@@ -50,43 +70,128 @@ const SignUp = () => {
                     <div className="login-card__ornament">✦ ✦ ✦</div>
                 </div>
 
-                <div className="login-card__form">
+                <form
+                    className="login-card__form"
+                    onSubmit={handleSubmit(onSubmit)}
+                >
                     <div className="login-card__row">
                         <div>
                             <label>Nombre</label>
-                            <input ref={nombreRef} type="text" placeholder="Tu nombre" />
+                            <input type="text" placeholder="Tu nombre"
+                                {...register('name', {
+                                    required: 'Debe ingresar un nombre'
+                                })}
+                            />
+
+                            {errors.name && (
+                                <p className="login-card__error">{errors.name.message}</p>
+                            )}
                         </div>
                         <div>
                             <label>Apellido</label>
-                            <input ref={apellidoRef} type="text" placeholder="Tu apellido" />
+                            <input type="text" placeholder="Tu apellido"
+                                {...register('lastName', {
+                                    required: 'Debe ingresar un apellido'
+                                })}
+                            />
+
+                            {errors.lastName && (
+                                <p className="login-card__error">{errors.lastName.message}</p>
+                            )}
                         </div>
                     </div>
 
                     <div>
                         <label>Nombre de usuario</label>
-                        <input ref={nombreUsuarioRef} type="text" placeholder="Nombre de usuario único" />
+                        <input type="text" placeholder="Nombre de usuario único"
+                            {...register('userName', {
+                                required: 'Debe ingresar un nombre de usuario',
+                                minLength: {
+                                    value: 3,
+                                    message: 'Debe tener al menos 3 caracteres'
+                                },
+                                maxLength: {
+                                    value: 15,
+                                    message: 'El nombre de usuario no puede superar los 15 caracteres'
+                                }
+                            })}
+                        />
+
+                        {errors.userName && (
+                            <p className="login-card__error">{errors.userName.message}</p>
+                        )}
                     </div>
 
                     <div>
                         <label>Correo electrónico</label>
-                        <input ref={mailRef} type="email" placeholder="correo@ejemplo.com" />
+                        <input type="email" placeholder="correo@ejemplo.com"
+                            {...register('mail', {
+                                required: 'Debe ingresar un email',
+                                pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                    message: 'Debe ingresar un email válido'
+                                }
+                            })}
+                        />
+
+                        {errors.mail && (
+                            <p className="login-card__error">
+                                {errors.mail.message}
+                            </p>
+                        )}
                     </div>
 
                     <div>
                         <label>Contraseña</label>
-                        <input ref={contrasenaRef} type="password" placeholder="Contraseña" />
+                        <input type="password" placeholder="Contraseña"
+                            {...register('password', {
+                                required: 'Debe ingresar una contraseña',
+                                minLength: {
+                                    value: 8,
+                                    message: 'La contraseña debe tener al menos 8 caracteres'
+                                },
+                                maxLength: {
+                                    value: 20,
+                                    message: 'La contraseña no puede superar los 20 caracteres'
+                                }
+                            })}
+                        />
+
+                        {errors.password && (
+                            <p className="login-card__error">{errors.password.message}</p>
+                        )}
                     </div>
 
-                    {error   && <p className="login-card__error">{error}</p>}
+                    <div>
+                        <label>Repetir contraseña</label>
+                        <input
+                            type="password"
+                            placeholder="Repetir contraseña"
+                            {...register('confirmPassword', {
+                                required: 'Debe repetir la contraseña',
+                                validate: value =>
+                                    value === watch('password') ||
+                                    'Las contraseñas no coinciden'
+                            })}
+                        />
+
+                        {errors.confirmPassword && (
+                            <p className="login-card__error">
+                                {errors.confirmPassword.message}
+                            </p>
+                        )}
+                    </div>
+
+                    {error && <p className="login-card__error">{error}</p>}
                     {success && <p className="login-card__success">{success}</p>}
 
-                    <button onClick={handleOnClickSignUp} className="btn btn--primary">
+                    <button type="submit" className="btn btn--primary" disabled={!isValid}>
                         Crear cuenta
                     </button>
-                    <button className="btn" onClick={() => navigate('/login')}>
+                    <button type="button" className="btn" onClick={() => navigate('/login')}>
                         Ya tengo cuenta — Iniciar sesión
                     </button>
-                </div>
+                </form>
             </div>
         </div>
     )

@@ -21,7 +21,7 @@ const Login = () => {
         setError('')
 
         const credentials = {
-            nombreUsuario: data.username,
+            nombreUsuario: data.userName,
             contrasena: data.password
         }
 
@@ -69,7 +69,7 @@ const Login = () => {
                         <input
                             type="text"
                             placeholder="Nombre de usuario"
-                            {...register('username', {
+                            {...register('userName', {
                                 required: 'El usuario es obligatorio',
                                 minLength: {
                                     value: 3,
