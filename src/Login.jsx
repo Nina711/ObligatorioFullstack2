@@ -1,35 +1,50 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import { useForm } from 'react-hook-form'
 import { API_URL } from './config'
 
 const Login = () => {
-    const userNameRef = useRef()
-    const passwordRef = useRef()
-    const navigate    = useNavigate()
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
-    const handleOnClickLogin = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isValid }
+    } = useForm({
+        mode: 'onChange'
+    })
+
+    const onSubmit = (data) => {
+
         setError('')
+
         const credentials = {
-            nombreUsuario: userNameRef.current.value,
-            contrasena:    passwordRef.current.value,
+            nombreUsuario: data.username,
+            contrasena: data.password
         }
 
-        fetch(`${API_URL}/v1/login`, {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify(credentials),
-        })
-            .then(res => {
-                if (!res.ok) throw new Error('Credenciales incorrectas')
-                return res.json()
-            })
-            .then(data => {
-                const token = data.token || data
-                localStorage.setItem('token', token)
-                navigate('/dashboard')
-            })
-            .catch(err => setError(err.message))
+        setLoading(true)
+
+        fetch(`${API_URL}/v1/login/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        }).then(res => {
+            if (!res.ok) {
+                throw new Error('Credenciales incorrectas')
+            }
+            return res.json()
+        }).then(data => {
+            const token = data.token || data
+            localStorage.setItem('token', token)
+            navigate('/dashboard')
+        }).catch(e => setError(e.message))
+        .finally(() => setLoading(false))
+
     }
 
     return (
@@ -38,27 +53,90 @@ const Login = () => {
                 <div className="login-card__header">
                     <div className="login-card__ornament">✦ ✦ ✦</div>
                     <h1>Mi Biblioteca</h1>
-                    <p className="login-card__subtitle">Accede a tu colección personal</p>
+                    <p className="login-card__subtitle">
+                        Accede a tu colección personal
+                    </p>
                     <div className="login-card__ornament">✦ ✦ ✦</div>
                 </div>
 
-                <div className="login-card__form">
+                <form
+                    className="login-card__form"
+                    onSubmit={handleSubmit(onSubmit)}
+                >
                     <div>
                         <label>Usuario</label>
-                        <input ref={userNameRef} type="text" placeholder="Nombre de usuario" />
+
+                        <input
+                            type="text"
+                            placeholder="Nombre de usuario"
+                            {...register('username', {
+                                required: 'El usuario es obligatorio',
+                                minLength: {
+                                    value: 3,
+                                    message: 'El nombre de usuario debe tener al menos 3 caracteres'
+                                },
+                                maxLength: {
+                                    value: 15,
+                                    message: 'El nombre de usuario no puede superar los 15 caracteres'
+                                }
+                            })}
+                        />
+
+                        {errors.username && (
+                            <p className="login-card__error">
+                                {errors.username.message}
+                            </p>
+                        )}
                     </div>
+
                     <div>
                         <label>Contraseña</label>
-                        <input ref={passwordRef} type="password" placeholder="Contraseña" />
+
+                        <input
+                            type="password"
+                            placeholder="Contraseña"
+                            {...register('password', {
+                                required: 'La contraseña es obligatoria',
+                                minLength: {
+                                    value: 8,
+                                    message: 'La contraseña debe tener al menos 8 caracteres'
+                                },
+                                maxLength: {
+                                    value: 20,
+                                    message: 'La contraseña no puede superar los 20 caracteres'
+                                }
+                            })}
+                        />
+
+                        {errors.password && (
+                            <p className="login-card__error">
+                                {errors.password.message}
+                            </p>
+                        )}
                     </div>
-                    {error && <p className="login-card__error">{error}</p>}
-                    <button onClick={handleOnClickLogin} className="btn btn--primary">
-                        Ingresar
+
+                    {error && (
+                        <p className="login-card__error">
+                            {error}
+                        </p>
+                    )}
+
+                    <button
+                        type="submit"
+                        className="btn btn--primary"
+                        disabled={!isValid || loading}
+                    >
+                        {loading ? 'Ingresando...' :  'Ingresar'}
                     </button>
-                    <button className="btn" onClick={() => navigate('/signup')}>
+
+                    <button
+                        type="button"
+                        className="btn"
+                        onClick={() => navigate('/signup')}
+                    >
                         No tengo cuenta — Registrarme
                     </button>
-                </div>
+                </form>
             </div>
         </div>
     )
