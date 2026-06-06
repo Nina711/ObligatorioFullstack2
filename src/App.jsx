@@ -1,4 +1,4 @@
-//import './App.css'
+import './App.css'
 import { Provider } from 'react-redux'
 import { store } from './store'
 import { BrowserRouter, Route, Routes } from 'react-router'

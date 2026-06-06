@@ -2,9 +2,13 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
 import { API_URL } from './config'
+import { useDispatch } from 'react-redux'
+import { setUser } from './features/userSlice'
+import { jwtDecode } from 'jwt-decode'
 
 const Login = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
@@ -41,9 +45,20 @@ const Login = () => {
         }).then(data => {
             const token = data.token || data
             localStorage.setItem('token', token)
+
+            const payload = jwtDecode(token)
+
+            dispatch(
+                setUser({
+                    id: payload.idUsu,
+                    rol: payload.rolUsu,
+                    plan: payload.planUsu
+                })
+            )
+            
             navigate('/dashboard')
         }).catch(e => setError(e.message))
-        .finally(() => setLoading(false))
+            .finally(() => setLoading(false))
 
     }
 
@@ -126,7 +141,7 @@ const Login = () => {
                         className="btn btn--primary"
                         disabled={!isValid || loading}
                     >
-                        {loading ? 'Ingresando...' :  'Ingresar'}
+                        {loading ? 'Ingresando...' : 'Ingresar'}
                     </button>
 
                     <button

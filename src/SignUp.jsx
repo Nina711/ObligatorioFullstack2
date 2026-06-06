@@ -2,9 +2,13 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { API_URL } from './config'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { setUser } from './features/userSlice'
+import { jwtDecode } from 'jwt-decode'
 
 const SignUp = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
 
@@ -50,6 +54,16 @@ const SignUp = () => {
             setSuccess('Cuenta creada correctamente Redirigiendo...')
 
             localStorage.setItem('token', data.token)
+
+            const payload = jwtDecode(data.token)
+
+            dispatch(
+                setUser({
+                    id: payload.idUsu,
+                    rol: payload.rolUsu,
+                    plan: payload.planUsu
+                })
+            )
 
             setTimeout(() => {
                 navigate('/dashboard')

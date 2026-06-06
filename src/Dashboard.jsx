@@ -5,10 +5,15 @@ import { useNavigate } from 'react-router'
 import { API_URL } from './config'
 import AddBook from './AddBook'
 import Books from './Books'
+import { useSelector } from 'react-redux'
+import ChangePlan from './ChangePlan'
 
 const Dashboard = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const plan = useSelector(
+        state => state.user.plan
+    )
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
@@ -18,8 +23,9 @@ const Dashboard = () => {
     }, [navigate])
 
     useEffect(() => {
-        fetch(`${API_URL}/v1/libros`, {
+        fetch(`${API_URL}/v1/libros?limite=10&pagina=1`, {
             headers: {
+                'Content-Type': 'application/json',
                 Authorization: localStorage.getItem('token'),
             },
         })
@@ -33,7 +39,7 @@ const Dashboard = () => {
             .then(data => {
                 if (data) dispatch(setBooks(data.libros ?? data))
             })
-            .catch(() => {})
+            .catch(() => { })
     }, [dispatch, navigate])
 
     const handleLogout = () => {
@@ -49,6 +55,7 @@ const Dashboard = () => {
                     <h1 className="app-header__title">Mi Biblioteca</h1>
                     <span className="app-header__ornament">📚</span>
                 </div>
+                <ChangePlan />
                 <button onClick={handleLogout} className="btn">Cerrar sesión</button>
             </header>
 
