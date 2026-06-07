@@ -22,6 +22,7 @@ export const bookSlice = createSlice({
             state.books = state.books.filter(book => book._id != action.payload)
         },
         updateBook: (state, action) => {
+            console.log(action.payload)
             state.books = state.books.map(book => {
                 if (book._id == action.payload.id) {
                     book = { ...book, ...action.payload.modificado }

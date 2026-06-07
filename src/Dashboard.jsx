@@ -37,7 +37,7 @@ const Dashboard = () => {
                 }
             })
             .then(data => {
-                if (data) dispatch(setBooks(data.libros ?? data))
+                if (data) dispatch(setBooks(data.libro))
             })
             .catch(() => { })
     }, [dispatch, navigate])
