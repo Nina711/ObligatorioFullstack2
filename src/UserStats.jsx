@@ -10,7 +10,7 @@ import {
     Legend,
 } from 'chart.js'
 import { API_URL } from './config'
-import './UserStats.css'
+//import './UserStats.css'
 
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend)
 

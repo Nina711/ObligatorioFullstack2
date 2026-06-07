@@ -7,6 +7,7 @@ import AddBook from './AddBook'
 import Books from './Books'
 import { useSelector } from 'react-redux'
 import ChangePlan from './ChangePlan'
+import UserStats from './UserStats'
 
 const Dashboard = () => {
     const dispatch = useDispatch()
@@ -62,6 +63,7 @@ const Dashboard = () => {
             <main className="dashboard">
                 <AddBook />
                 <Books />
+                <UserStats />
             </main>
         </>
     )
