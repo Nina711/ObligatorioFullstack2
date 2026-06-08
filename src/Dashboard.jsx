@@ -8,6 +8,7 @@ import Books from './Books'
 import { useSelector } from 'react-redux'
 import ChangePlan from './ChangePlan'
 import UserStats from './UserStats'
+import logo from '../public/logo2.svg'
 
 const Dashboard = () => {
     const dispatch = useDispatch()
@@ -52,9 +53,10 @@ const Dashboard = () => {
         <>
             <header className="app-header">
                 <div className="app-header__brand">
-                    <span className="app-header__ornament">📚</span>
-                    <h1 className="app-header__title">Mi Biblioteca</h1>
-                    <span className="app-header__ornament">📚</span>
+                    <div className="dashboard-logo">
+                        <img src={logo} alt="StoryShelf" />
+                    </div>
+                    <h1 className="app-header__title">StoryShelf</h1>
                 </div>
                 <ChangePlan />
                 <button onClick={handleLogout} className="btn">Cerrar sesión</button>

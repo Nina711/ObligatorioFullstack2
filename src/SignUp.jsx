@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { setUser } from './features/userSlice'
 import { jwtDecode } from 'jwt-decode'
+import logo from '../public/logo2.svg'
 
 const SignUp = () => {
     const navigate = useNavigate()
@@ -78,10 +79,12 @@ const SignUp = () => {
         <div className="login-page">
             <div className="login-card login-card--wide">
                 <div className="login-card__header">
-                    <div className="login-card__ornament">✦ ✦ ✦</div>
+                    <div className="signUp-logo">
+                        <img src={logo} alt="StoryShelf" />
+                    </div>
                     <h1>Crear Cuenta</h1>
-                    <p className="login-card__subtitle">Únete a tu biblioteca personal</p>
-                    <div className="login-card__ornament">✦ ✦ ✦</div>
+                    <p className="login-card__subtitle"><i>Organiza tus lecturas y construye tu biblioteca ideal.</i></p>
+                    <div className="login-card__ornament">────────────</div>
                 </div>
 
                 <form

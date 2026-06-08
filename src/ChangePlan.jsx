@@ -50,7 +50,7 @@ const ChangePlan = () => {
         <section className="card">
 
             <p>
-                Plan actual: <strong>{plan}</strong>
+                Eres un usuario <strong>{plan}</strong>
             </p>
 
             {plan === 'Plus' ? (

@@ -5,6 +5,7 @@ import { API_URL } from './config'
 import { useDispatch } from 'react-redux'
 import { setUser } from './features/userSlice'
 import { jwtDecode } from 'jwt-decode'
+import logo from '../public/logo2.svg'
 
 const Login = () => {
     const navigate = useNavigate()
@@ -55,7 +56,7 @@ const Login = () => {
                     plan: payload.planUsu
                 })
             )
-            
+
             navigate('/dashboard')
         }).catch(e => setError(e.message))
             .finally(() => setLoading(false))
@@ -66,12 +67,14 @@ const Login = () => {
         <div className="login-page">
             <div className="login-card">
                 <div className="login-card__header">
-                    <div className="login-card__ornament">✦ ✦ ✦</div>
-                    <h1>Mi Biblioteca</h1>
+                    <div className="login-logo">
+                        <img src={logo} alt="StoryShelf" />
+                    </div>
+                    <h1>StoryShelf</h1>
                     <p className="login-card__subtitle">
-                        Accede a tu colección personal
+                        <i>Cada historia tiene su lugar.</i>
                     </p>
-                    <div className="login-card__ornament">✦ ✦ ✦</div>
+                    <div className="login-card__ornament">────────────</div>
                 </div>
 
                 <form

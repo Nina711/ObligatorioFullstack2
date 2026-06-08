@@ -6,7 +6,7 @@ const Books = () => {
 
     return (
         <section className="books-section">
-            <h2 className="books-section__title">Mi Colección</h2>
+            <h2 className="books-section__title">Mi estantería</h2>
             <div className="divider">— ✦ —</div>
 
             <div className="books-grid">
@@ -22,7 +22,7 @@ const Books = () => {
                             descripcion={book.descripcion}
                         />
                     ))
-                    : <p className="books-empty">No tienes libros en tu colección aún.</p>
+                    : <p className="books-empty">No tienes libros en tu estantería aún.</p>
                 }
             </div>
         </section>
