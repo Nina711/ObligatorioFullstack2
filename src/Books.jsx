@@ -4,6 +4,7 @@ import Recommendations from './Recommendations'
 
 const Books = () => {
     const books = useSelector(state => state.books.books)
+    console.log("BOOKS:", books)
 
     return (
         <>
@@ -15,8 +16,8 @@ const Books = () => {
                     {books.length > 0
                         ? books.map(book => (
                             <BookCard
-                                key={book._id}
-                                id={book._id}
+                                key={book.id}
+                                id={book.id}
                                 titulo={book.titulo}
                                 autor={book.autor}
                                 genero={book.genero}

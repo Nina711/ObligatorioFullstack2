@@ -1,0 +1,140 @@
+/* ── User Stats ───────────────────────────────────────── */
+
+.user-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.user-stats__title {
+  margin: 0;
+
+  font-size: 1.8rem;
+  font-weight: 700;
+
+  color: var(--text);
+}
+
+.user-stats__loading,
+.user-stats__error {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 24px;
+}
+
+.divider {
+  text-align: center;
+  color: var(--primary);
+  font-size: 1rem;
+  opacity: .7;
+}
+
+/* ── Summary cards ────────────────────────────────────── */
+
+.user-stats__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  border-radius: 18px;
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  border: 1px solid var(--border);
+
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+  transition: all .2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+/* Colores StoryShelf */
+
+.stat-card:nth-child(1) {
+  background: #DDD6FE;
+}
+
+.stat-card:nth-child(2) {
+  background: #DDD6FE;
+}
+
+.stat-card:nth-child(3) {
+  background: #DDD6FE;
+}
+
+.stat-card__value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #34295B;
+}
+
+.stat-card__label {
+  font-size: .95rem;
+  color: #34295B;
+}
+
+/* ── Charts ───────────────────────────────────────────── */
+
+.user-stats__charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.chart-box {
+  background: white;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  padding: 20px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+.chart-box--wide {
+  grid-column: 1 / -1;
+}
+
+.chart-box__title {
+  margin: 0 0 20px 0;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  color: var(--text);
+}
+
+.chart-box__canvas {
+  position: relative;
+  height: 240px;
+}
+
+.chart-box__canvas--doughnut {
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .user-stats__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .user-stats__charts {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-box__canvas {
+    height: 260px;
+  }
+}

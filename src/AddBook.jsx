@@ -48,6 +48,7 @@ const AddBook = () => {
             }
 
             const book = await res.json()
+            console.log("RESPUESTA BACKEND:", book)
 
             dispatch(addBook(book))
 

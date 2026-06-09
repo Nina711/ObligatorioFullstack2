@@ -10,26 +10,62 @@ import {
     Legend,
 } from 'chart.js'
 import { API_URL } from './config'
-//import './UserStats.css'
+import './UserStats.css'
 
-ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend)
+ChartJS.register(
+    ArcElement,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Tooltip,
+    Legend
+)
 
 const ESTADO_COLORS = {
-    Leido:     { bg: 'rgba(123, 45, 62, 0.85)',  border: '#7b2d3e' },
-    Leyendo:   { bg: 'rgba(201, 168, 76, 0.85)', border: '#c9a84c' },
-    Pendiente: { bg: 'rgba(92, 64, 51, 0.45)',   border: '#5c4033' },
+    Leido: {
+        bg: 'rgba(124,108,242,.85)',
+        border: '#7C6CF2'
+    },
+    Leyendo: {
+        bg: 'rgba(167,139,250,.85)',
+        border: '#A78BFA'
+    },
+    Pendiente: {
+        bg: 'rgba(203,213,225,.9)',
+        border: '#CBD5E1'
+    }
 }
 
-const CHART_FONT = { family: "Georgia, 'Book Antiqua', Palatino, serif" }
+const CHART_FONT = {
+    family: 'Inter, system-ui, sans-serif'
+}
+
+const TOOLTIP_OPTIONS = {
+    bodyFont: CHART_FONT,
+    titleFont: CHART_FONT,
+
+    backgroundColor: '#F8F7FC',
+
+    titleColor: '#111827',
+    bodyColor: '#374151',
+
+    borderColor: '#DDD6FE',
+    borderWidth: 1,
+
+    cornerRadius: 12,
+    padding: 12,
+}
 
 const UserStats = () => {
-    const [stats, setStats]       = useState(null)
+    const [stats, setStats] = useState(null)
     const [cargando, setCargando] = useState(true)
-    const [error, setError]       = useState('')
+    const [error, setError] = useState('')
 
     useEffect(() => {
         fetch(`${API_URL}/v1/stats`, {
-            headers: { Authorization: localStorage.getItem('token') }
+            headers: {
+                Authorization: localStorage.getItem('token')
+            }
         })
             .then(res => {
                 if (res.ok) return res.json()
@@ -40,110 +76,224 @@ const UserStats = () => {
             .finally(() => setCargando(false))
     }, [])
 
-    if (cargando) return <section className="user-stats"><p className="user-stats__loading">Cargando estadísticas…</p></section>
-    if (error)    return <section className="user-stats"><p className="user-stats__error">{error}</p></section>
-    if (!stats)   return null
+    if (cargando) {
+        return (
+            <section className="user-stats">
+                <p className="user-stats__loading">
+                    Cargando estadísticas...
+                </p>
+            </section>
+        )
+    }
 
-    const { totalLibros, librosLeidos, ratioLeidos, librosPorEstado = [], librosPorGenero = [], calificacionPromediaPorGenero = [] } = stats
+    if (error) {
+        return (
+            <section className="user-stats">
+                <p className="user-stats__error">{error}</p>
+            </section>
+        )
+    }
+
+    if (!stats) return null
+
+    const {
+        totalLibros,
+        librosLeidos,
+        ratioLeidos,
+        librosPorEstado = [],
+        librosPorGenero = [],
+        calificacionPromediaPorGenero = []
+    } = stats
 
     const estadoData = {
-        labels:   librosPorEstado.map(e => e._id),
-        datasets: [{
-            data:            librosPorEstado.map(e => e.count),
-            backgroundColor: librosPorEstado.map(e => ESTADO_COLORS[e._id]?.bg  ?? 'rgba(140,116,90,0.6)'),
-            borderColor:     librosPorEstado.map(e => ESTADO_COLORS[e._id]?.border ?? '#8c745a'),
-            borderWidth: 2,
-        }],
+        labels: librosPorEstado.map(e => e.estado),
+        datasets: [
+            {
+                data: librosPorEstado.map(e => e.total),
+                backgroundColor: librosPorEstado.map(
+                    e =>
+                        ESTADO_COLORS[e.estado]?.bg ??
+                        'rgba(124,108,242,.4)'
+                ),
+                borderColor: librosPorEstado.map(
+                    e =>
+                        ESTADO_COLORS[e.estado]?.border ??
+                        '#7C6CF2'
+                ),
+                borderWidth: 2,
+            },
+        ],
     }
 
     const generoData = {
-        labels: librosPorGenero.map(g => g._id),
-        datasets: [{
-            label: 'Libros',
-            data:  librosPorGenero.map(g => g.count),
-            backgroundColor: 'rgba(123, 45, 62, 0.7)',
-            borderColor:     '#7b2d3e',
-            borderWidth: 1.5,
-        }],
+        labels: librosPorGenero.map(g => g.genero),
+        datasets: [
+            {
+                label: 'Libros',
+                data: librosPorGenero.map(g => g.total),
+                backgroundColor: [
+                    '#7C6CF2',
+                    '#A78BFA',
+                    '#C4B5FD',
+                    '#DDD6FE',
+                    '#EDE9FE'
+                ],
+                borderColor: '#6D5DF0',
+                borderWidth: 1.5,
+            },
+        ],
     }
 
-    const calificacionData = calificacionPromediaPorGenero.length > 0 ? {
-        labels: calificacionPromediaPorGenero.map(c => c._id),
-        datasets: [{
-            label: 'Calificación promedio',
-            data:  calificacionPromediaPorGenero.map(c => Number(c.promedio).toFixed(1)),
-            backgroundColor: 'rgba(201, 168, 76, 0.7)',
-            borderColor:     '#c9a84c',
-            borderWidth: 1.5,
-        }],
-    } : null
+    const calificacionData =
+        calificacionPromediaPorGenero.length > 0
+            ? {
+                labels: calificacionPromediaPorGenero.map(
+                    c => c.genero
+                ),
+                datasets: [
+                    {
+                        label: 'Calificación promedio',
+                        data:
+                            calificacionPromediaPorGenero.map(
+                                c =>
+                                    Number(
+                                        c.promedioCalificacion
+                                    )
+                            ),
+                        backgroundColor: '#7C6CF2',
+                        borderColor: '#5B4EE8',
+                        borderWidth: 1.5,
+                    },
+                ],
+            }
+            : null
 
     const barOptions = {
         indexAxis: 'y',
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
-            legend: { display: false },
-            tooltip: { bodyFont: CHART_FONT, titleFont: CHART_FONT },
+            legend: {
+                display: false,
+            },
+            tooltip: TOOLTIP_OPTIONS,
         },
         scales: {
-            x: { ticks: { font: CHART_FONT, color: '#5c4033' }, grid: { color: 'rgba(196,168,130,0.3)' } },
-            y: { ticks: { font: CHART_FONT, color: '#5c4033' }, grid: { display: false } },
+            x: {
+                ticks: {
+                    font: CHART_FONT,
+                    color: '#6B7280',
+                },
+                grid: {
+                    color: 'rgba(124,108,242,.12)',
+                },
+            },
+            y: {
+                ticks: {
+                    font: CHART_FONT,
+                    color: '#6B7280',
+                },
+                grid: {
+                    display: false,
+                },
+            },
         },
     }
 
     const doughnutOptions = {
         responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%',
         plugins: {
             legend: {
                 position: 'bottom',
-                labels: { font: CHART_FONT, color: '#5c4033', padding: 16 },
+                labels: {
+                    font: CHART_FONT,
+                    color: '#6B7280',
+                    padding: 16,
+                },
             },
-            tooltip: { bodyFont: CHART_FONT, titleFont: CHART_FONT },
+            tooltip: TOOLTIP_OPTIONS,
         },
     }
 
     return (
         <section className="user-stats">
-            <h2 className="user-stats__title">Mis estadísticas</h2>
-            <div className="divider">— ✦ —</div>
+            <h2 className="user-stats__title">
+                Mis estadísticas
+            </h2>
 
             <div className="user-stats__cards">
                 <div className="stat-card">
-                    <span className="stat-card__value">{totalLibros ?? 0}</span>
-                    <span className="stat-card__label">Total libros</span>
+                    <span className="stat-card__value">
+                        {totalLibros ?? 0}
+                    </span>
+                    <span className="stat-card__label">
+                        Total libros
+                    </span>
                 </div>
+
                 <div className="stat-card">
-                    <span className="stat-card__value">{librosLeidos ?? 0}</span>
-                    <span className="stat-card__label">Leídos</span>
+                    <span className="stat-card__value">
+                        {librosLeidos ?? 0}
+                    </span>
+                    <span className="stat-card__label">
+                        Leídos
+                    </span>
                 </div>
-                <div className="stat-card stat-card--accent">
-                    <span className="stat-card__value">{ratioLeidos != null ? `${Math.round(ratioLeidos * 100)}%` : '—'}</span>
-                    <span className="stat-card__label">Completado</span>
+
+                <div className="stat-card">
+                    <span className="stat-card__value">
+                        {ratioLeidos != null
+                            ? `${Math.round(
+                                ratioLeidos * 100
+                            )
+                            }% `
+                            : '—'}
+                    </span>
+                    <span className="stat-card__label">
+                        Completado
+                    </span>
                 </div>
             </div>
 
             <div className="user-stats__charts">
                 {librosPorEstado.length > 0 && (
                     <div className="chart-box">
-                        <h3 className="chart-box__title">Estado de lectura</h3>
+                        <h3 className="chart-box__title">
+                            Estado de lectura
+                        </h3>
+
                         <div className="chart-box__canvas chart-box__canvas--doughnut">
-                            <Doughnut data={estadoData} options={doughnutOptions} />
+                            <Doughnut
+                                data={estadoData}
+                                options={doughnutOptions}
+                            />
                         </div>
                     </div>
                 )}
 
                 {librosPorGenero.length > 0 && (
                     <div className="chart-box">
-                        <h3 className="chart-box__title">Libros por género</h3>
+                        <h3 className="chart-box__title">
+                            Libros por género
+                        </h3>
+
                         <div className="chart-box__canvas">
-                            <Bar data={generoData} options={barOptions} />
+                            <Bar
+                                data={generoData}
+                                options={barOptions}
+                            />
                         </div>
                     </div>
                 )}
 
                 {calificacionData && (
                     <div className="chart-box chart-box--wide">
-                        <h3 className="chart-box__title">Calificación promedio por género</h3>
+                        <h3 className="chart-box__title">
+                            Calificación promedio por género
+                        </h3>
+
                         <div className="chart-box__canvas">
                             <Bar
                                 data={calificacionData}
@@ -151,7 +301,10 @@ const UserStats = () => {
                                     ...barOptions,
                                     scales: {
                                         ...barOptions.scales,
-                                        x: { ...barOptions.scales.x, max: 5 },
+                                        x: {
+                                            ...barOptions.scales.x,
+                                            max: 5,
+                                        },
                                     },
                                 }}
                             />
@@ -161,6 +314,7 @@ const UserStats = () => {
             </div>
         </section>
     )
+
 }
 
 export default UserStats

@@ -25,6 +25,7 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado }) => {
     })
 
     const handleSave = async (data) => {
+        console.log("ID recibido por props:", id);
         setError('')
         const libroModificado = {
             titulo: data.titulo,
@@ -33,6 +34,10 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado }) => {
             descripcion: data.descripcion,
             estado: data.estado
         }
+
+        console.log(data);
+        console.log(data._id);
+        console.log(data.id);
 
         try {
             const res = await fetch(
@@ -76,6 +81,7 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado }) => {
             : descripcion
 
     const handleDelete = async () => {
+        console.log("ID recibido por props:", id);
         try {
             const res = await fetch(`${API_URL}/v1/libros/${id}`, {
                 method: "DELETE",

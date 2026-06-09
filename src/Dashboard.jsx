@@ -8,7 +8,7 @@ import Books from './Books'
 import { useSelector } from 'react-redux'
 import ChangePlan from './ChangePlan'
 import UserStats from './UserStats'
-import logo from '../public/logo2.svg'
+import logo from '../public/logo.svg'
 
 const Dashboard = () => {
     const dispatch = useDispatch()

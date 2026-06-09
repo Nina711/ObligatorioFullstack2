@@ -5,7 +5,7 @@ import { API_URL } from './config'
 import { useDispatch } from 'react-redux'
 import { setUser } from './features/userSlice'
 import { jwtDecode } from 'jwt-decode'
-import logo from '../public/logo2.svg'
+import logo from '../public/logo.svg'
 
 const Login = () => {
     const navigate = useNavigate()
