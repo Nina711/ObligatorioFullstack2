@@ -10,7 +10,6 @@ const Books = () => {
         <>
             <section className="books-section">
                 <h2 className="books-section__title">Mi estantería</h2>
-                <div className="divider">— ✦ —</div>
 
                 <div className="books-grid">
                     {books.length > 0

@@ -75,7 +75,6 @@ const Recommendations = () => {
         <section className="recommendations">
             <h2 className="recommendations__title">Sugerencias para ti</h2>
             <p className="recommendations__subtitle">Basado en «{lastBook.titulo}»</p>
-            <div className="divider">— ✦ —</div>
 
             {loading && (
                 <p className="recommendations__loading">Consultando al bibliotecario...</p>

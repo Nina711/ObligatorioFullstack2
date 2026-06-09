@@ -63,9 +63,9 @@ const Dashboard = () => {
             </header>
 
             <main className="dashboard">
+                <UserStats />
                 <AddBook />
                 <Books />
-                <UserStats />
             </main>
         </>
     )

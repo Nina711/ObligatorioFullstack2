@@ -60,6 +60,7 @@ const AddBook = () => {
     }
 
     useEffect(() => {
+        let cancelado = false
 
         if (seleccionado) {
             setSeleccionado(false)
@@ -88,15 +89,23 @@ const AddBook = () => {
 
                 const data = await res.json()
 
-                setOpciones(data)
+                if (!cancelado) {
+                    setOpciones(data)
+                }
 
             } catch {
-                setOpciones([])
+
+                if (!cancelado) {
+                    setOpciones([])
+                }
             }
 
-        }, 500)
+        }, 250)
 
-        return () => clearTimeout(timeout)
+        return () => {
+            cancelado = true
+            clearTimeout(timeout)
+        }
 
     }, [titulo])
 
@@ -115,10 +124,15 @@ const AddBook = () => {
         setOpciones([])
     }
 
+    const handleClear = () => {
+        reset()
+        setOpciones([])
+        setSeleccionado(false)
+    }
+
     return (
         <section className="add-book">
             <h2 className="add-book__title">Registrar Nuevo Libro</h2>
-            <div className="divider">— ✦ —</div>
 
             <form
                 className="add-book__form"
@@ -141,10 +155,11 @@ const AddBook = () => {
 
                                 <div
                                     key={index}
+                                    className="book-suggestion"
                                     onClick={() => seleccionarLibro(libro)}
                                 >
                                     <strong>{libro.titulo}</strong>
-                                    
+
                                     {libro.autor && (
                                         <p>{libro.autor}</p>
                                     )}
@@ -240,6 +255,12 @@ const AddBook = () => {
                 </div>
 
                 <div className="add-book__actions">
+                    <button
+                        type="button"
+                        className="btn"
+                        onClick={handleClear}
+                    >Limpiar
+                    </button>
                     <button
                         type="submit"
                         className="btn btn--primary"
