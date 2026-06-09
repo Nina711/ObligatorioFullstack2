@@ -35,10 +35,6 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado }) => {
             estado: data.estado
         }
 
-        console.log(data);
-        console.log(data._id);
-        console.log(data.id);
-
         try {
             const res = await fetch(
                 `${API_URL}/v1/libros/${id}`,

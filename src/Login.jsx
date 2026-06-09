@@ -53,7 +53,8 @@ const Login = () => {
                 setUser({
                     id: payload.idUsu,
                     rol: payload.rolUsu,
-                    plan: payload.planUsu
+                    plan: payload.planUsu,
+                    nombreUsu: payload.nombreUsu
                 })
             )
 

@@ -13,14 +13,14 @@ const Recommendations = () => {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        if (!lastBook?._id) return
+        if (!lastBook?.id) return
 
         const fetchRecommendations = async () => {
             setLoading(true)
             setError(null)
             setRecommendations([])
             try {
-                const res = await fetch(`${API_URL}/v1/libros/${lastBook._id}/sugerencia-libros`, {
+                const res = await fetch(`${API_URL}/v1/libros/${lastBook.id}/sugerencia-libros`, {
                     headers: { Authorization: localStorage.getItem('token') }
                 })
                 if (!res.ok) throw new Error('Error al obtener sugerencias')
@@ -67,7 +67,7 @@ const Recommendations = () => {
         }
 
         fetchRecommendations()
-    }, [lastBook?._id])
+    }, [lastBook?.id])
 
     if (!lastBook) return null
 

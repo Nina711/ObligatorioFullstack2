@@ -10,6 +10,10 @@ const ChangePlan = () => {
         state => state.user.plan
     )
 
+    const nombreUsu = useSelector(
+        state => state.user.nombreUsu
+    )
+
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -48,9 +52,8 @@ const ChangePlan = () => {
 
     return (
         <section className="card">
-
             <p>
-                Eres un usuario <strong>{plan}</strong>
+                Bienvenido/a {nombreUsu}! Eres un usuario <strong>{plan}</strong>
             </p>
 
             {plan === 'Plus' ? (

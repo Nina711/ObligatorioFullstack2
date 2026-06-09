@@ -10,7 +10,8 @@ import {
     Legend,
 } from 'chart.js'
 import { API_URL } from './config'
-import './UserStats.css'
+import './styles/UserStats.css'
+import { useSelector } from 'react-redux'
 
 ChartJS.register(
     ArcElement,
@@ -57,6 +58,9 @@ const TOOLTIP_OPTIONS = {
 }
 
 const UserStats = () => {
+    const books = useSelector(
+    state => state.books.books
+)
     const [stats, setStats] = useState(null)
     const [cargando, setCargando] = useState(true)
     const [error, setError] = useState('')
@@ -74,7 +78,7 @@ const UserStats = () => {
             .then(data => setStats(data))
             .catch(e => setError(e.message))
             .finally(() => setCargando(false))
-    }, [])
+    }, [books])
 
     if (cargando) {
         return (

@@ -15,6 +15,7 @@ export const userSlice = createSlice({
             state.id = action.payload.id
             state.rol = action.payload.rol
             state.plan = action.payload.plan
+            state.nombreUsu = action.payload.nombreUsu
         },
 
         setPlan: (state, action) => {

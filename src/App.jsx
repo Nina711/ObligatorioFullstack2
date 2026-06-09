@@ -1,6 +1,6 @@
-import './App.css'
+import './styles/App.css'
 import { Provider } from 'react-redux'
-import { store } from './store'
+import { store } from './store/store.js'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import Dashboard from './Dashboard'
 import SignUp from './SignUp'
