@@ -77,6 +77,13 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado }) => {
             : descripcion
 
     const handleDelete = async () => {
+        const confirmar = window.confirm(
+        `¿Estás seguro de que deseas eliminar "${titulo}"?`
+    )
+
+    if (!confirmar) {
+        return
+    }
         console.log("ID recibido por props:", id);
         try {
             const res = await fetch(`${API_URL}/v1/libros/${id}`, {

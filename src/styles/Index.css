@@ -177,14 +177,6 @@ textarea {
   cursor: not-allowed;
 }
 
-/* ── Decorative divider ── */
-.divider {
-  text-align: center;
-  color: var(--gold-dark);
-  font-size: 14px;
-  letter-spacing: 6px;
-  margin: 8px 0 24px;
-}
 
 /* ── App Header ── */
 .app-header {
@@ -381,6 +373,32 @@ textarea {
   display: flex;
 
   justify-content: flex-end;
+}
+
+.add-book__footer {
+  grid-column: 1 / -1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  gap: 8px;
+}
+
+.add-book__actions {
+  display: flex;
+
+  gap: 12px;
+}
+
+.success-message {
+  color: var(--success);
+
+  font-size: 14px;
+
+  font-weight: 500;
 }
 
 /*--Sugerencias--*/

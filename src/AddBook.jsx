@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 
 const AddBook = () => {
     const dispatch = useDispatch()
+    const [successMessage, setSuccessMessage] = useState('')
     const [opciones, setOpciones] = useState([])
     const [seleccionado, setSeleccionado] = useState(false)
 
@@ -23,7 +24,6 @@ const AddBook = () => {
     const titulo = watch('titulo')
 
     const onSubmit = async (data) => {
-        console.log(data)
         try {
             const res = await fetch(
                 `${API_URL}/v1/libros`,
@@ -53,6 +53,12 @@ const AddBook = () => {
             dispatch(addBook(book))
 
             reset()
+
+            setSuccessMessage('Libro creado correctamente')
+
+            setTimeout(() => {
+                setSuccessMessage(null)
+            }, 3000)
 
         } catch (e) {
             alert(e.message)
@@ -253,19 +259,27 @@ const AddBook = () => {
                         </p>
                     )}
                 </div>
+                <div className="add-book__footer">
+                    <div className="add-book__actions">
+                        <button
+                            type="button"
+                            className="btn"
+                            onClick={handleClear}
+                        >Limpiar
+                        </button>
+                        <button
+                            type="submit"
+                            className="btn btn--primary"
+                            disabled={!isValid}
+                        >Crear</button>
 
-                <div className="add-book__actions">
-                    <button
-                        type="button"
-                        className="btn"
-                        onClick={handleClear}
-                    >Limpiar
-                    </button>
-                    <button
-                        type="submit"
-                        className="btn btn--primary"
-                        disabled={!isValid}
-                    >Crear</button>
+                    </div>
+                    {successMessage && (
+                        <p className="success-message">
+                            {successMessage}
+                        </p>
+                    )}
+
                 </div>
             </form>
         </section>
