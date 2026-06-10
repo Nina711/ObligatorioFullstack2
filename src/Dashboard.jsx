@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import ChangePlan from './ChangePlan'
 import UserStats from './UserStats'
 import logo from '../public/logo.svg'
+import { setReviews } from './features/reviewSlice'
 
 const Dashboard = () => {
     const dispatch = useDispatch()
@@ -25,23 +26,61 @@ const Dashboard = () => {
     }, [navigate])
 
     useEffect(() => {
-        fetch(`${API_URL}/v1/libros?limite=10&pagina=1`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: localStorage.getItem('token'),
-            },
-        })
-            .then(res => {
-                if (res.ok) return res.json()
-                if (res.status === 401) {
+
+        const cargarDatos = async () => {
+
+            try {
+
+                const booksRes = await fetch(
+                    `${API_URL}/v1/libros?limite=10&pagina=1`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization:
+                                localStorage.getItem('token')
+                        }
+                    }
+                )
+
+                const reviewsRes = await fetch(
+                    `${API_URL}/v1/reviews?limite=100&pagina=1`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization:
+                                localStorage.getItem('token')
+                        }
+                    }
+                )
+
+                if (booksRes.status === 401) {
                     localStorage.removeItem('token')
                     navigate('/login')
+                    return
                 }
-            })
-            .then(data => {
-                if (data) dispatch(setBooks(data.libro))
-            })
-            .catch(() => { })
+
+                const booksData =
+                    await booksRes.json()
+
+                const reviewsData =
+                    await reviewsRes.json()
+
+                dispatch(
+                    setBooks(booksData.libro)
+                )
+
+                dispatch(
+                    setReviews(reviewsData.reviews)
+                )
+
+            } catch {
+                console.log('Error')
+            }
+
+        }
+
+        cargarDatos()
+
     }, [dispatch, navigate])
 
     const handleLogout = () => {

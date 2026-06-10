@@ -3,10 +3,10 @@ import { addBook } from './features/bookSlice'
 import { API_URL } from './config'
 import { useForm } from 'react-hook-form'
 import { useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 const AddBook = () => {
     const dispatch = useDispatch()
-    const [successMessage, setSuccessMessage] = useState('')
     const [opciones, setOpciones] = useState([])
     const [seleccionado, setSeleccionado] = useState(false)
 
@@ -42,9 +42,12 @@ const AddBook = () => {
 
                 throw new Error(
                     error.message ||
-                    error.error ||
-                    'No se pudo agregar el libro'
+                    error.error
                 )
+
+                toast.error('No se pudo agregar el libro', {
+                    position: "bottom-right"
+                });
             }
 
             const book = await res.json()
@@ -54,14 +57,15 @@ const AddBook = () => {
 
             reset()
 
-            setSuccessMessage('Libro creado correctamente')
-
-            setTimeout(() => {
-                setSuccessMessage(null)
-            }, 3000)
+            toast.success('Libro creado exitosamente', {
+                position: "bottom-right"
+            });
 
         } catch (e) {
             alert(e.message)
+            toast.error(e.message, {
+                position: "bottom-right"
+            });
         }
     }
 
@@ -274,11 +278,6 @@ const AddBook = () => {
                         >Crear</button>
 
                     </div>
-                    {successMessage && (
-                        <p className="success-message">
-                            {successMessage}
-                        </p>
-                    )}
 
                 </div>
             </form>

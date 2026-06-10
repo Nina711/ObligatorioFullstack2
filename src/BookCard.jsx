@@ -3,12 +3,62 @@ import { useDispatch } from "react-redux"
 import { deleteBook, updateBook } from "./features/bookSlice"
 import { API_URL } from "./config"
 import { useForm } from "react-hook-form"
+import { addReview } from "./features/reviewSlice"
+import AddReview from "./AddReview"
+import ReactModal from "react-modal"
+import { toast } from 'react-toastify'
 
-const BookCard = ({ id, titulo, autor, genero, descripcion, estado }) => {
+
+const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) => {
 
     const dispatch = useDispatch()
     const [editing, setEditing] = useState(false)
     const [error, setError] = useState('')
+    const [showReviewForm, setShowReviewForm] = useState(false)
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    const customStyles = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+        }
+    };
+
+    ReactModal.setAppElement('#root');
+
+    const openModal = () => {
+        setIsOpen(true);
+    }
+
+    const closeModal = async () => {
+        setIsOpen(false);
+    }
+
+    const handleDeleteModal = async () => {
+        try {
+            const res = await fetch(`${API_URL}/v1/libros/${id}`, {
+                method: "DELETE",
+                headers: { Authorization: localStorage.getItem('token') },
+            })
+            if (res.ok) {
+                dispatch(deleteBook(id))
+                closeModal
+            }
+            else {
+                toast.error('No se pudo eliminar el libro',{
+                    position: "bottom-right"
+                })
+            }
+        } catch {
+            toast.error('Error de conexión', {
+                    position: "bottom-right"
+                })
+        }
+    }
 
     const {
         register,
@@ -76,26 +126,6 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado }) => {
             ? `${descripcion.slice(0, 100)}...`
             : descripcion
 
-    const handleDelete = async () => {
-        const confirmar = window.confirm(
-        `¿Estás seguro de que deseas eliminar "${titulo}"?`
-    )
-
-    if (!confirmar) {
-        return
-    }
-        console.log("ID recibido por props:", id);
-        try {
-            const res = await fetch(`${API_URL}/v1/libros/${id}`, {
-                method: "DELETE",
-                headers: { Authorization: localStorage.getItem('token') },
-            })
-            if (res.ok) dispatch(deleteBook(id))
-            else alert("No se pudo eliminar el libro")
-        } catch {
-            alert("Error de conexión")
-        }
-    }
 
     if (!editing) {
         return (
@@ -115,8 +145,50 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado }) => {
                     </span>
                     <div className="book-card__actions">
                         <button onClick={() => setEditing(true)} className="btn btn--small">Editar</button>
-                        <button onClick={handleDelete} className="btn btn--small btn--danger">Eliminar</button>
+                        <button onClick={openModal} className="btn btn--small btn--danger">Eliminar</button>
                     </div>
+
+                    {estado === 'Leido' && !review && (
+                        <button
+                            className="btn btn--small btn--primary"
+                            onClick={() => setShowReviewForm(true)}
+                        >
+                            ⭐ Agregar reseña
+                        </button>
+                    )}
+
+                    {showReviewForm && (
+                        <AddReview
+                            bookId={id}
+                            onCancel={() => setShowReviewForm(false)}
+                            onReviewCreated={(reviewCreada) => {
+                                dispatch(addReview(reviewCreada))
+                                setShowReviewForm(false)
+                            }}
+                        />
+                    )}
+                    <ReactModal
+                        isOpen={modalIsOpen}
+                        onRequestClose={closeModal}
+                        style={customStyles}
+                    >
+                        <p>{`¿Estás seguro de que deseas eliminar ${titulo}?`}
+                        </p>
+                        <button onClick={handleDeleteModal}>Si</button>
+                    </ReactModal>
+
+                    {review && (
+                        <div className="book-review">
+                            <p className="book-review__rating">
+                                {'⭐'.repeat(review.calificacion)}
+                            </p>
+
+                            {review.comentario && (
+                                <p>{review.comentario}</p>
+                            )}
+
+                        </div>
+                    )}
                 </div>
             </article>
         )
@@ -211,6 +283,15 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado }) => {
                         {error}
                     </p>
                 )}
+                <ReactModal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    style={customStyles}
+                >
+                    <p>`¿Estás seguro de que deseas eliminar "${titulo}"?`
+                    </p>
+                    <button onClick={handleDeleteModal}>Si</button>
+                </ReactModal>
 
                 <div className="book-card__actions">
                     <button
@@ -231,7 +312,7 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado }) => {
                     <button
                         type="button"
                         className="btn btn--small btn--danger"
-                        onClick={handleDelete}
+                        onClick={openModal}
                     >
                         Eliminar
                     </button>

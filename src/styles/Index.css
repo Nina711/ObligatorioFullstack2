@@ -747,3 +747,21 @@ body {
 
   line-height: 1.4;
 }
+
+/*--reviews*/
+
+.book-review {
+  margin-top: 12px;
+
+  padding-top: 12px;
+
+  border-top: 1px solid var(--border);
+}
+
+.book-review {
+  margin-top: 12px;
+
+  padding-top: 12px;
+
+  border-top: 1px solid var(--border);
+}

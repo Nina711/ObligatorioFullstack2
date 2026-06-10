@@ -6,12 +6,11 @@ import { useDispatch } from 'react-redux'
 import { setUser } from './features/userSlice'
 import { jwtDecode } from 'jwt-decode'
 import logo from '../public/logo.svg'
+import { toast } from 'react-toastify'
 
 const SignUp = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [error, setError] = useState('')
-    const [success, setSuccess] = useState('')
 
     const {
         register,
@@ -23,8 +22,6 @@ const SignUp = () => {
     })
 
     const onSubmit = async (data) => {
-        setError('')
-        setSuccess('')
 
         const newUser = {
             nombre: data.name,
@@ -52,7 +49,9 @@ const SignUp = () => {
 
             const data = await res.json()
 
-            setSuccess('Cuenta creada correctamente Redirigiendo...')
+            toast.success('Cuenta creada correctamente', {
+                position: 'bottom-right'
+            })
 
             localStorage.setItem('token', data.token)
 
@@ -72,7 +71,9 @@ const SignUp = () => {
             }, 1500)
 
         } catch (e) {
-            setError(e.message)
+            toast.error(e.message, {
+                position: 'bottom-right'
+            })
         }
     }
 
@@ -199,9 +200,6 @@ const SignUp = () => {
                             </p>
                         )}
                     </div>
-
-                    {error && <p className="login-card__error">{error}</p>}
-                    {success && <p className="login-card__success">{success}</p>}
 
                     <button type="submit" className="btn btn--primary" disabled={!isValid}>
                         Crear cuenta

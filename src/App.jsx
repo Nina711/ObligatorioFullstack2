@@ -6,10 +6,12 @@ import Dashboard from './Dashboard'
 import SignUp from './SignUp'
 import Login from './Login'
 import RutaNoEncontrada from './pathNotFound'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
     <Provider store={store}>
+      <ToastContainer />
       <BrowserRouter>
         <Routes>
           <Route path='/login' element={<Login />} />
