@@ -7,6 +7,7 @@ const AddReview = ({ bookId, onReviewCreated, onCancel }) => {
     const [calificacion, setCalificacion] = useState(5)
     const [comentario, setComentario] = useState('')
     const [loading, setLoading] = useState(false)
+    const [imagen, setImagen] = useState(null)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -35,12 +36,48 @@ const AddReview = ({ bookId, onReviewCreated, onCancel }) => {
             }
 
             const review = await res.json()
-            
-            onReviewCreated(review)
+
+            if (imagen) {
+
+                const formData = new FormData()
+
+                formData.append('img', imagen)
+
+                const imageRes = await fetch(
+                    `${API_URL}/v1/reviews/${review.id}/imagen`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            Authorization:
+                                localStorage.getItem('token')
+                        },
+                        body: formData
+                    }
+                )
+
+                if (!imageRes.ok) {
+
+                    throw new Error(
+                        'La reseña fue creada pero no se pudo subir la imagen'
+                    )
+
+                }
+
+                const reviewConImagen =
+                    await imageRes.json()
+
+                onReviewCreated(reviewConImagen)
+                console.log(reviewConImagen)
+
+            } else {
+
+                onReviewCreated(review)
+
+            }
         } catch (e) {
             toast.error(e.message, {
-                    position: "bottom-right"
-                })
+                position: "bottom-right"
+            })
         } finally {
             setLoading(false)
         }
@@ -73,6 +110,16 @@ const AddReview = ({ bookId, onReviewCreated, onCancel }) => {
                 value={comentario}
                 onChange={(e) =>
                     setComentario(e.target.value)
+                }
+            />
+
+            <label>Imagen (opcional)</label>
+
+            <input
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                    setImagen(e.target.files[0])
                 }
             />
 

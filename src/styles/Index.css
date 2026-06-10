@@ -74,8 +74,8 @@ h3 {
   overflow: hidden;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,.05),
-    0 20px 80px rgba(0,0,0,.08);
+    0 10px 30px rgba(0, 0, 0, .05),
+    0 20px 80px rgba(0, 0, 0, .08);
 
   display: flex;
   flex-direction: column;
@@ -140,7 +140,7 @@ textarea {
 
   transition: .2s;
 
-  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
 }
 
 .btn--primary {
@@ -169,7 +169,7 @@ textarea {
 
 .btn:not(:disabled):hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
 }
 
 .btn:disabled {
@@ -232,8 +232,8 @@ textarea {
   padding: 48px;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,.05),
-    0 20px 60px rgba(0,0,0,.08);
+    0 10px 30px rgba(0, 0, 0, .05),
+    0 20px 60px rgba(0, 0, 0, .08);
 }
 
 .login-card--wide {
@@ -284,15 +284,23 @@ textarea {
 .login-card__form .btn--primary {
   margin-top: 10px;
 }
+
 /* wide variant for signup */
-.login-card--wide { max-width: 520px; }
+.login-card--wide {
+  max-width: 520px;
+}
 
 .login-card__row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
-@media (max-width: 480px) { .login-card__row { grid-template-columns: 1fr; } }
+
+@media (max-width: 480px) {
+  .login-card__row {
+    grid-template-columns: 1fr;
+  }
+}
 
 .login-card__success {
   color: var(--gold-dark);
@@ -406,7 +414,7 @@ textarea {
   position: absolute;
 
   top: calc(100% + 6px);
-  
+
   left: 0;
 
   width: 100%;
@@ -417,7 +425,7 @@ textarea {
 
   border-radius: 16px;
 
-  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
 
   overflow: hidden;
 
@@ -431,7 +439,7 @@ textarea {
 
   transition: all .2s ease;
 
-  border-bottom: 1px solid rgba(0,0,0,.05);
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
 }
 
 .book-suggestion:last-child {
@@ -439,7 +447,7 @@ textarea {
 }
 
 .book-suggestion:hover {
-  background: rgba(107,99,255,.08);
+  background: rgba(107, 99, 255, .08);
 
   transform: translateX(4px);
 }
@@ -532,7 +540,7 @@ textarea {
 
   width: fit-content;
 
-  background: rgba(107,99,255,.12);
+  background: rgba(107, 99, 255, .12);
 
   color: var(--primary);
 
@@ -578,12 +586,12 @@ textarea {
 }
 
 .book-card__state--leyendo {
-  background: rgba(107,99,255,.12);
+  background: rgba(107, 99, 255, .12);
   color: var(--primary);
 }
 
 .book-card__state--leido {
-  background: rgba(54,179,126,.12);
+  background: rgba(54, 179, 126, .12);
   color: var(--success);
 }
 
@@ -601,28 +609,27 @@ textarea {
 
 body {
   background:
-    radial-gradient(
-      circle at top left,
-      rgba(143,135,255,.18),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at bottom right,
-      rgba(107,99,255,.15),
-      transparent 30%
-    ),
+    radial-gradient(circle at top left,
+      rgba(143, 135, 255, .18),
+      transparent 35%),
+    radial-gradient(circle at bottom right,
+      rgba(107, 99, 255, .15),
+      transparent 30%),
     var(--bg-page);
 }
 
 /*--logo--*/
 
-.login-logo, .signUp-logo {
+.login-logo,
+.signUp-logo {
   display: flex;
   justify-content: center;
   margin-bottom: 18px;
 }
 
-.login-logo img, .dashboard-logo img, .signUp-logo img {
+.login-logo img,
+.dashboard-logo img,
+.signUp-logo img {
   width: 48px;
   height: auto;
 }
@@ -631,21 +638,27 @@ body {
   display: flex;
   justify-content: center;
 }
+
 /* ── Recommendations section ── */
-.recommendations
-.recommendations__title { font-size: 1.4rem; letter-spacing: 0.5px; }
+.recommendations .recommendations__title {
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
 .recommendations__subtitle {
   font-size: 13px;
   color: var(--ink-faded);
   font-style: italic;
   margin-top: 4px;
 }
+
 .recommendations__loading {
   text-align: center;
   color: var(--ink-faded);
   font-style: italic;
   padding: 32px 0;
 }
+
 .recommendations__error {
   color: var(--burgundy);
   font-size: 13px;
@@ -653,6 +666,7 @@ body {
   border-left: 3px solid var(--burgundy);
   padding-left: 8px;
 }
+
 .recommendations__grid {
   display: flex;
   gap: 20px;
@@ -677,14 +691,14 @@ body {
 
   transition: all .2s ease;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .06);
 }
 
 .rec-card:hover {
   transform: translateY(-3px);
 
   box-shadow:
-    0 10px 24px rgba(0,0,0,.10);
+    0 10px 24px rgba(0, 0, 0, .10);
 }
 
 .rec-card__cover {
@@ -764,4 +778,19 @@ body {
   padding-top: 12px;
 
   border-top: 1px solid var(--border);
+}
+
+.book-review__image-wrapper {
+  margin-top: 12px;
+}
+
+.book-review__image {
+  width: 100%;
+  max-height: 180px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+
+  border: 1px solid var(--border);
 }

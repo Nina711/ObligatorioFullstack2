@@ -55,7 +55,7 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
             })
             if (res.ok) {
                 dispatch(deleteBook(id))
-                closeModal()
+                closeDeleteBookModal()
             }
             else {
                 toast.error('No se pudo eliminar el libro', {
@@ -136,6 +136,8 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
             : descripcion
 
     const handleReviewDelete = async () => {
+        console.log("REVIEW:", review)
+    console.log("REVIEW ID:", review?.id)
         try {
             const res = await fetch(`${API_URL}/v1/reviews/${review.id}`, {
                 method: "DELETE",
@@ -146,7 +148,7 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
 
             if (res.ok) {
                 dispatch(deleteReview(review.id))
-                closeModal()
+                closeDeleteReviewModal()
             } else {
                 toast.error('No se pudo eliminar la reseña', {
                     position: "bottom-right"
@@ -218,6 +220,16 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
 
                             {review.comentario && (
                                 <p>{review.comentario}</p>
+                            )}
+
+                            {review.urlImagen && (
+                                <div className="book-review__image-wrapper">
+                                    <img
+                                        src={review.urlImagen}
+                                        alt="Imagen de la reseña"
+                                        className="book-review__image"
+                                    />
+                                </div>
                             )}
 
                             <button
