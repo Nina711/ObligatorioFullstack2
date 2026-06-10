@@ -772,14 +772,6 @@ body {
   border-top: 1px solid var(--border);
 }
 
-.book-review {
-  margin-top: 12px;
-
-  padding-top: 12px;
-
-  border-top: 1px solid var(--border);
-}
-
 .book-review__image-wrapper {
   margin-top: 12px;
 }
@@ -814,4 +806,71 @@ body {
   justify-content: flex-end;
 
   margin-top: 8px;
+}
+
+.pnf-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.pnf-icon-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #eeedfe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.pnf-emoji {
+  font-size: 36px;
+}
+
+.pnf-code {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #7f77dd;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+}
+
+.pnf-title {
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0 0 0.75rem;
+}
+
+.pnf-desc {
+  font-size: 15px;
+  color: #666;
+  margin: 0 0 2rem;
+  max-width: 320px;
+  line-height: 1.6;
+}
+
+.pnf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: 0.5px solid #afa9ec;
+  background: #eeedfe;
+  color: #3c3489;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.pnf-btn:hover {
+  background: #cecbf6;
 }

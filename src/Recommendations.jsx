@@ -6,7 +6,7 @@ const GOOGLE_BOOKS_URL = 'https://www.googleapis.com/books/v1/volumes'
 
 const Recommendations = () => {
     const books = useSelector(state => state.books.books)
-    const lastBook = books[0]
+    const lastBook = books[books.length - 1]
 
     const [recommendations, setRecommendations] = useState([])
     const [loading, setLoading] = useState(false)
