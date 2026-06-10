@@ -35,7 +35,7 @@ const AddReview = ({ bookId, onReviewCreated, onCancel }) => {
             }
 
             const review = await res.json()
-
+            
             onReviewCreated(review)
         } catch (e) {
             toast.error(e.message, {
@@ -91,7 +91,6 @@ const AddReview = ({ bookId, onReviewCreated, onCancel }) => {
                 >
                     Guardar reseña
                 </button>
-
             </div>
         </form>
     )

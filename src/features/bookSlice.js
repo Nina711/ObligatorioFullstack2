@@ -13,14 +13,11 @@ export const bookSlice = createSlice({
         },
         addBook: (state, action) => {
             const newBook = { ...action.payload}
-            state.books.push(newBook)
         },
         deleteBook: (state, action) => {
-            console.log(action.payload)
             state.books = state.books.filter(book => book.id != action.payload)
         },
         updateBook: (state, action) => {
-            console.log(action.payload)
             state.books = state.books.map(book => {
                 if (book.id == action.payload.id) {
                     book = { ...book, ...action.payload.modificado }    

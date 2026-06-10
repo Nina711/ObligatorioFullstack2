@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import { deleteBook, updateBook } from "./features/bookSlice"
 import { API_URL } from "./config"
 import { useForm } from "react-hook-form"
-import { addReview } from "./features/reviewSlice"
+import { addReview, deleteReview } from "./features/reviewSlice"
 import AddReview from "./AddReview"
 import ReactModal from "react-modal"
 import { toast } from 'react-toastify'
@@ -15,7 +15,8 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
     const [editing, setEditing] = useState(false)
     const [error, setError] = useState('')
     const [showReviewForm, setShowReviewForm] = useState(false)
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [deleteBookModal, setDeleteBookModal] = useState(false)
+    const [deleteReviewModal, setDeleteReviewModal] = useState(false)
 
     const customStyles = {
         content: {
@@ -30,12 +31,20 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
 
     ReactModal.setAppElement('#root');
 
-    const openModal = () => {
-        setIsOpen(true);
+    const openDeleteBookModal = () => {
+        setDeleteBookModal(true)
     }
 
-    const closeModal = async () => {
-        setIsOpen(false);
+    const closeDeleteBookModal = () => {
+        setDeleteBookModal(false)
+    }
+
+    const openDeleteReviewModal = () => {
+        setDeleteReviewModal(true)
+    }
+
+    const closeDeleteReviewModal = () => {
+        setDeleteReviewModal(false)
     }
 
     const handleDeleteModal = async () => {
@@ -46,17 +55,17 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
             })
             if (res.ok) {
                 dispatch(deleteBook(id))
-                closeModal
+                closeModal()
             }
             else {
-                toast.error('No se pudo eliminar el libro',{
+                toast.error('No se pudo eliminar el libro', {
                     position: "bottom-right"
                 })
             }
         } catch {
             toast.error('Error de conexión', {
-                    position: "bottom-right"
-                })
+                position: "bottom-right"
+            })
         }
     }
 
@@ -126,6 +135,30 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
             ? `${descripcion.slice(0, 100)}...`
             : descripcion
 
+    const handleReviewDelete = async () => {
+        try {
+            const res = await fetch(`${API_URL}/v1/reviews/${review.id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: localStorage.getItem('token')
+                },
+            })
+
+            if (res.ok) {
+                dispatch(deleteReview(review.id))
+                closeModal()
+            } else {
+                toast.error('No se pudo eliminar la reseña', {
+                    position: "bottom-right"
+                })
+            }
+        } catch {
+            toast.error('Error de conexión', {
+                position: "bottom-right"
+            })
+        }
+    }
+
 
     if (!editing) {
         return (
@@ -145,7 +178,7 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
                     </span>
                     <div className="book-card__actions">
                         <button onClick={() => setEditing(true)} className="btn btn--small">Editar</button>
-                        <button onClick={openModal} className="btn btn--small btn--danger">Eliminar</button>
+                        <button onClick={openDeleteBookModal} className="btn btn--small btn--danger">Eliminar</button>
                     </div>
 
                     {estado === 'Leido' && !review && (
@@ -168,8 +201,8 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
                         />
                     )}
                     <ReactModal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
+                        isOpen={deleteBookModal}
+                        onRequestClose={closeDeleteBookModal}
                         style={customStyles}
                     >
                         <p>{`¿Estás seguro de que deseas eliminar ${titulo}?`}
@@ -186,6 +219,22 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
                             {review.comentario && (
                                 <p>{review.comentario}</p>
                             )}
+
+                            <button
+                                type="button"
+                                onClick={openDeleteReviewModal}
+                            >
+                                Eliminar reseña
+                            </button>
+
+                            <ReactModal
+                                isOpen={deleteReviewModal}
+                                onRequestClose={closeDeleteReviewModal}
+                            >
+                                <p>¿Estás seguro de que deseas eliminar esta reseña?</p>
+                                <button onClick={handleReviewDelete}>Si</button>
+
+                            </ReactModal>
 
                         </div>
                     )}
@@ -284,8 +333,8 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
                     </p>
                 )}
                 <ReactModal
-                    isOpen={modalIsOpen}
-                    onRequestClose={closeModal}
+                    isOpen={deleteBookModal}
+                    onRequestClose={closeDeleteBookModal}
                     style={customStyles}
                 >
                     <p>`¿Estás seguro de que deseas eliminar "${titulo}"?`
@@ -312,7 +361,7 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
                     <button
                         type="button"
                         className="btn btn--small btn--danger"
-                        onClick={openModal}
+                        onClick={openDeleteBookModal}
                     >
                         Eliminar
                     </button>
