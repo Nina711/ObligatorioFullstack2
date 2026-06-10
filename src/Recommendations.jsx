@@ -37,7 +37,7 @@ const Recommendations = () => {
                             const params = new URLSearchParams({
                                 q: `intitle:${name}`,
                                 maxResults: '1',
-                                printType: 'books',
+                                printType: 'books'
                             })
                             const gbRes = await fetch(`${GOOGLE_BOOKS_URL}?${params}`)
                             if (!gbRes.ok) return { title: name, authors: [], image: null, infoLink: null }
@@ -48,7 +48,6 @@ const Recommendations = () => {
                             return {
                                 title: vol.title ?? name,
                                 authors: vol.authors ?? [],
-                                // Google Books sometimes returns http:// — force https
                                 image: rawImage ? rawImage.replace(/^http:/, 'https:') : null,
                                 infoLink: vol.infoLink ?? null,
                             }
