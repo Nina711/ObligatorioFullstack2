@@ -23,10 +23,11 @@ const Recommendations = () => {
           headers: { Authorization: localStorage.getItem('token') }
         })
         const data = await res.json()
+        console.log('API sugerencia response:', JSON.stringify(data))
 
         setRecommendations([{
-          title: data.sugerencia,
-          image: data.imagenUrl ?? null,
+          title: data.sugerencia ?? '',
+          image: data.imagenURL?.thumbnail ?? data.imagenURL?.smallThumbnail ?? null,
           authors: [],
           infoLink: null
         }])
@@ -42,7 +43,7 @@ const Recommendations = () => {
 
   return (
     <section className="recommendations">
-      <h2 className="recommendations__title">Sugerencias para ti</h2>
+      <h2 className="recommendations__title">En base a tu ultimo libro te recomendamos</h2>
       <p className="recommendations__subtitle">Basado en «{lastBook?.titulo}»</p>
 
       {loading && <p className="recommendations__loading">Consultando al bibliotecario...</p>}

@@ -8,15 +8,15 @@ import Books from './Books'
 import { useSelector } from 'react-redux'
 import ChangePlan from './ChangePlan'
 import UserStats from './UserStats'
+import AdminStats from './AdminStats'
+import ThemeToggle from './ThemeToggle'
 import logo from '../public/logo.svg'
 import { setReviews } from './features/reviewSlice'
 
 const Dashboard = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const plan = useSelector(
-        state => state.user.plan
-    )
+    const rol = useSelector(state => state.user.rol)
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
@@ -97,14 +97,21 @@ const Dashboard = () => {
                     </div>
                     <h1 className="app-header__title">StoryShelf</h1>
                 </div>
-                <ChangePlan />
+                {rol !== 'Admin' && <ChangePlan />}
+                <ThemeToggle />
                 <button onClick={handleLogout} className="btn">Cerrar sesión</button>
             </header>
 
             <main className="dashboard">
-                <UserStats />
-                <AddBook />
-                <Books />
+                {rol === 'Admin' ? (
+                    <AdminStats />
+                ) : (
+                    <>
+                        <UserStats />
+                        <AddBook />
+                        <Books />
+                    </>
+                )}
             </main>
         </>
     )

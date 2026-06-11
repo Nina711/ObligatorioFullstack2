@@ -874,3 +874,97 @@ body {
 .pnf-btn:hover {
   background: #cecbf6;
 }
+
+/* ── Dark mode ────────────────────────────────────────── */
+
+[data-theme="dark"] {
+  --bg-page:    #0f1020;
+  --bg-surface: #181929;
+  --bg-card:    #1f2035;
+  --primary:      #8b83ff;
+  --primary-dark: #7c6ff2;
+  --secondary:    #a89fff;
+  --text:       #e4e5f1;
+  --text-light: #9a9bb0;
+  --text-faded: #62637a;
+  --border:     #2c2d47;
+  --shadow:     rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at top left, rgba(100,90,255,.1), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(80,70,220,.08), transparent 30%),
+    var(--bg-page);
+}
+
+[data-theme="dark"] #root {
+  background: var(--bg-surface);
+}
+
+[data-theme="dark"] .app-header {
+  background: var(--bg-card);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background: var(--bg-surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .btn {
+  background: var(--bg-card);
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+
+[data-theme="dark"] .btn--primary {
+  background: var(--primary);
+  color: white;
+}
+
+[data-theme="dark"] .btn--danger {
+  background: rgba(255,90,107,.12);
+  color: var(--danger);
+}
+
+[data-theme="dark"] .add-book,
+[data-theme="dark"] .book-card,
+[data-theme="dark"] .login-card,
+[data-theme="dark"] .chart-box,
+[data-theme="dark"] .admin-table-box,
+[data-theme="dark"] .rec-card,
+[data-theme="dark"] .book-suggestions {
+  background: var(--bg-card);
+}
+
+[data-theme="dark"] .stat-card {
+  background: #2a2b48 !important;
+}
+
+[data-theme="dark"] .stat-card__value {
+  color: #c4bfff;
+}
+
+[data-theme="dark"] .stat-card__label {
+  color: var(--text-light);
+}
+
+[data-theme="dark"] .admin-table tbody tr:hover td {
+  background: rgba(139,131,255,.08);
+}
+
+[data-theme="dark"] .admin-table__badge--plus {
+  background: #2d2b55;
+  color: #b8b3ff;
+}
+
+[data-theme="dark"] .book-suggestion:hover {
+  background: rgba(139,131,255,.1);
+}
+
+[data-theme="dark"] .card {
+  background: var(--bg-card);
+}

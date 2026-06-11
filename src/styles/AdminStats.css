@@ -1,0 +1,67 @@
+/* ── Admin table ───────────────────────────────────────── */
+
+.admin-table-box {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+}
+
+.admin-table-wrapper {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+
+.admin-table thead tr {
+  border-bottom: 2px solid var(--border);
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.admin-table td {
+  padding: 12px 14px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tbody tr:hover td {
+  background: #F5F3FF;
+}
+
+/* ── Plan badge ───────────────────────────────────────── */
+
+.admin-table__badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+.admin-table__badge--plus {
+  background: #DDD6FE;
+  color: #34295B;
+}
+
+.admin-table__badge--premium {
+  background: #7C6CF2;
+  color: white;
+}
