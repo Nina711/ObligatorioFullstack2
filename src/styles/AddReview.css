@@ -22,3 +22,21 @@
 
   border: 1px solid var(--border);
 }
+
+.review-form__file {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.review-form__file span {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.review-form__actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}

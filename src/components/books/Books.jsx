@@ -125,7 +125,6 @@ const Books = () => {
                     setFilters={setFilters}
                 />
                 <h2 className="books-section__title">Mi estantería</h2>
-                <p>Mostrando 4 libros por página</p>
 
                 <div className="books-grid">
                     {filteredBooks.length > 0

@@ -6,3 +6,19 @@
 .changePlan__success {
   font-size: 13px;
 }
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.card .btn {
+  align-self: center;
+  margin-top: 12px;
+}
+
+.changePlan__button {
+  align-self: center;
+  margin-top: 12px;
+}
+

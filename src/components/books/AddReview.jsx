@@ -117,17 +117,33 @@ const AddReview = ({ bookId, onReviewCreated, onCancel }) => {
             <label>Imagen (opcional)</label>
 
             <input
+                id="review-image"
                 type="file"
                 accept="image/*"
+                hidden
                 onChange={(e) =>
                     setImagen(e.target.files[0])
                 }
             />
 
+            <div className="review-form__file">
+                <label
+                    htmlFor="review-image"
+                    className="btn btn--small"
+                >
+                    Elegir imagen
+                </label>
+
+                {imagen && (
+                    <span>{imagen.name}</span>
+                )}
+            </div>
+
             <div className="review-form__actions">
 
                 <button
                     type="button"
+                    className="btn btn--small"
                     onClick={onCancel}
                 >
                     Cancelar
@@ -135,6 +151,7 @@ const AddReview = ({ bookId, onReviewCreated, onCancel }) => {
 
                 <button
                     type="submit"
+                    className="btn btn--primary btn--small"
                     disabled={loading}
                 >
                     Guardar reseña

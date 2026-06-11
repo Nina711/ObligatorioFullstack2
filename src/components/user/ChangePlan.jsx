@@ -64,7 +64,7 @@ const ChangePlan = () => {
                     </p>
 
                     <button
-                        className="btn btn--primary"
+                        className="btn btn--primary changePlan__button"
                         onClick={handleUpgrade}
                         disabled={loading}
                     >

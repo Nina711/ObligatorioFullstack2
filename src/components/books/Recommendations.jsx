@@ -44,7 +44,7 @@ const Recommendations = () => {
 
   return (
     <section className="recommendations">
-      <h2 className="recommendations__title">En base a tu ultimo libro te recomendamos</h2>
+      <h2 className="recommendations__title">Libro recomendado en base a tu última lectura</h2>
       <p className="recommendations__subtitle">Basado en «{lastBook?.titulo}»</p>
 
       {loading && <p className="recommendations__loading">Consultando al bibliotecario...</p>}

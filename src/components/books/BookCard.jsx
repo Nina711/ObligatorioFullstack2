@@ -137,7 +137,7 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
 
     const handleReviewDelete = async () => {
         console.log("REVIEW:", review)
-    console.log("REVIEW ID:", review?.id)
+        console.log("REVIEW ID:", review?.id)
         try {
             const res = await fetch(`${API_URL}/v1/reviews/${review.id}`, {
                 method: "DELETE",
@@ -180,12 +180,11 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
                     </span>
                     <div className="book-card__actions">
                         <button onClick={() => setEditing(true)} className="btn btn--small">Editar</button>
-                        <button onClick={openDeleteBookModal} className="btn btn--small btn--danger">Eliminar</button>
                     </div>
 
                     {estado === 'Leido' && !review && (
                         <button
-                            className="btn btn--small btn--primary"
+                            className="btn btn--small btn--primary book-card__review-btn"
                             onClick={() => setShowReviewForm(true)}
                         >
                             ⭐ Agregar reseña
@@ -202,15 +201,6 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
                             }}
                         />
                     )}
-                    <ReactModal
-                        isOpen={deleteBookModal}
-                        onRequestClose={closeDeleteBookModal}
-                        style={customStyles}
-                    >
-                        <p>{`¿Estás seguro de que deseas eliminar ${titulo}?`}
-                        </p>
-                        <button onClick={handleDeleteModal}>Si</button>
-                    </ReactModal>
 
                     {review && (
                         <div className="book-review">
@@ -234,6 +224,7 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
 
                             <button
                                 type="button"
+                                className="btn btn--danger btn--small book-card__review-btn"
                                 onClick={openDeleteReviewModal}
                             >
                                 Eliminar reseña
@@ -242,9 +233,18 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
                             <ReactModal
                                 isOpen={deleteReviewModal}
                                 onRequestClose={closeDeleteReviewModal}
+                                className="modal"
+                                overlayClassName="modal-overlay"
                             >
-                                <p>¿Estás seguro de que deseas eliminar esta reseña?</p>
-                                <button onClick={handleReviewDelete}>Si</button>
+
+                                <div className="modal__content">
+                                    <h3 className="modal__title">Eliminar reseña</h3>
+                                    <p className="modal__text">¿Estás seguro de que deseas eliminar esta reseña?</p>
+                                    <div className="modal__actions">
+
+                                        <button className="btn btn--danger" onClick={handleReviewDelete}>Eliminar</button>
+                                    </div>
+                                </div>
 
                             </ReactModal>
 
@@ -347,11 +347,21 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
                 <ReactModal
                     isOpen={deleteBookModal}
                     onRequestClose={closeDeleteBookModal}
-                    style={customStyles}
+                    className="modal"
+                    overlayClassName="modal-overlay"
                 >
-                    <p>`¿Estás seguro de que deseas eliminar "${titulo}"?`
-                    </p>
-                    <button onClick={handleDeleteModal}>Si</button>
+                    <div className="modal__content">
+                        <h3 className="modal__title">Eliminar Libro</h3>
+                        <p className="modal__text">{`¿Estás seguro de que deseas eliminar ${titulo}?`}
+                        </p>
+
+                        <div className="modal__actions">
+                            <button
+                                className="btn btn--danger"
+                                onClick={handleDeleteModal}>Eliminar</button>
+                        </div>
+
+                    </div>
                 </ReactModal>
 
                 <div className="book-card__actions">
