@@ -26,12 +26,19 @@ const Recommendations = () => {
         const data = await res.json()
         console.log('API sugerencia response:', JSON.stringify(data))
 
-        setRecommendations([{
-          title: data.sugerencia ?? '',
-          image: data.imagenURL?.thumbnail ?? data.imagenURL?.smallThumbnail ?? null,
-          authors: [],
-          infoLink: null
-        }])
+        const parts = Array.isArray(data.sugerencia) ? data.sugerencia : [data.sugerencia]
+        const title = parts[0]?.trim()
+        const description = parts[1]?.trim() ?? null
+
+        if (title) {
+          setRecommendations([{
+            title,
+            description,
+            image: data.imagenURL?.thumbnail ?? data.imagenURL?.smallThumbnail ?? null,
+            authors: [],
+            infoLink: null
+          }])
+        }
       } catch (err) {
         setError(err.message)
       } finally {
@@ -49,6 +56,10 @@ const Recommendations = () => {
 
       {loading && <p className="recommendations__loading">Consultando al bibliotecario...</p>}
       {error && <p className="recommendations__error">{error}</p>}
+
+      {!loading && !error && recommendations.length === 0 && (
+        <p className="recommendations__empty">No se encontró recomendación</p>
+      )}
 
       {!loading && !error && recommendations.length > 0 && (
         <div className="recommendations__grid">
@@ -68,6 +79,9 @@ const Recommendations = () => {
               </div>
               <div className="rec-card__info">
                 <p className="rec-card__title">{rec.title}</p>
+                {rec.description && (
+                  <p className="rec-card__description">{rec.description}</p>
+                )}
                 {rec.authors.length > 0 && (
                   <p className="rec-card__author">{rec.authors.join(', ')}</p>
                 )}

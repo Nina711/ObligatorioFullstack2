@@ -79,6 +79,20 @@
   overflow: hidden;
 }
 
+.rec-card__description {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.4;
+  margin-top: 4px;
+
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .rec-card__author {
   font-size: 12px;
   color: var(--text-muted);
@@ -112,6 +126,13 @@
   font-style: italic;
   border-left: 3px solid var(--burgundy);
   padding-left: 8px;
+}
+
+.recommendations__empty {
+  text-align: center;
+  color: var(--ink-faded);
+  font-style: italic;
+  padding: 32px 0;
 }
 
 .recommendations__grid {
