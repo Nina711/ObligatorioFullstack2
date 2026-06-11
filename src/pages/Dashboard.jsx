@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setBooks } from '../features/bookSlice'
 import { useNavigate } from 'react-router'
 import { API_URL } from '../config/config'
 import AddBook from '../components/books/AddBook'
@@ -14,6 +13,7 @@ import { setReviews } from '../features/reviewSlice'
 import '../styles/Dashboard.css'
 import { jwtDecode } from 'jwt-decode'
 import { setUser } from '../features/userSlice'
+import { toast } from 'react-toastify'
 
 const Dashboard = () => {
     const dispatch = useDispatch()
@@ -49,7 +49,11 @@ const Dashboard = () => {
                 })
             )
 
-        } catch {
+        } catch (e) {
+            console.error(
+                'Token inválido',
+                e
+            )
             localStorage.removeItem('token')
             navigate('/login')
         }
@@ -79,6 +83,12 @@ const Dashboard = () => {
                     return
                 }
 
+                if (!reviewsRes.ok) {
+                    throw new Error(
+                        'No se pudieron cargar las reseñas'
+                    )
+                }
+
                 const reviewsData =
                     await reviewsRes.json()
 
@@ -86,8 +96,13 @@ const Dashboard = () => {
                     setReviews(reviewsData.reviews)
                 )
 
-            } catch {
-                console.log('Error')
+            } catch (e) {
+                toast.error(
+                    e.message || 'Error cargando reseñas',
+                    {
+                        position: 'bottom-right'
+                    }
+                )
             }
 
         }

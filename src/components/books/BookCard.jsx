@@ -18,17 +18,6 @@ const BookCard = ({ id, titulo, autor, genero, descripcion, estado, review }) =>
     const [deleteBookModal, setDeleteBookModal] = useState(false)
     const [deleteReviewModal, setDeleteReviewModal] = useState(false)
 
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-        }
-    };
-
     ReactModal.setAppElement('#root');
 
     const openDeleteBookModal = () => {

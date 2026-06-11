@@ -45,10 +45,6 @@ const AddBook = () => {
                     error.message ||
                     error.error
                 )
-
-                toast.error('No se pudo agregar el libro', {
-                    position: "bottom-right"
-                });
             }
 
             const book = await res.json()
@@ -62,7 +58,6 @@ const AddBook = () => {
             });
 
         } catch (e) {
-            alert(e.message)
             toast.error(e.message, {
                 position: "bottom-right"
             });

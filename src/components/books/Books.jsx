@@ -9,6 +9,7 @@ import { API_URL } from '../../config/config'
 import Paginate from '../common/Paginate'
 import '../../styles/Books.css'
 import PageSizeSelector from '../common/PageSizeSelector'
+import { toast } from 'react-toastify'
 
 const Books = () => {
     const books = useSelector(state => state.books.books)
@@ -78,7 +79,7 @@ const Books = () => {
                 })
             )
 
-        } catch {
+        } catch(e){
             toast.error(
                 e.message || 'Error filtrando libros',
                 {
