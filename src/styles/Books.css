@@ -218,3 +218,10 @@ body {
 
   margin-top: 8px;
 }
+
+.books-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}

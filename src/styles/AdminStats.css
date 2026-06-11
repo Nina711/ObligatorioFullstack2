@@ -65,3 +65,10 @@
   background: #7C6CF2;
   color: white;
 }
+
+.admin-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}

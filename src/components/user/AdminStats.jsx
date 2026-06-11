@@ -3,6 +3,7 @@ import { API_URL } from '../../config/config.js'
 import '../../styles/UserStats.css'
 import '../../styles/AdminStats.css'
 import Paginate from '../common/Paginate.jsx'
+import PageSizeSelector from '../common/PageSizeSelector.jsx'
 
 const AdminStats = () => {
     const [stats, setStats] = useState(null)
@@ -13,13 +14,14 @@ const AdminStats = () => {
         total: 0,
         totalPaginas: 1
     })
+    const [limite, setLimite] = useState(10)
 
     const cargarUsuarios = async (paginaActual = 1) => {
 
         const token = localStorage.getItem('token')
 
         const res = await fetch(
-            `${API_URL}/v1/admin/usuarios?limite=10&pagina=${paginaActual}`,
+            `${API_URL}/v1/admin/usuarios?limite=${limite}&pagina=${paginaActual}`,
             {
                 headers: {
                     Authorization: token
@@ -57,7 +59,7 @@ const AdminStats = () => {
             })
             .catch(e => setError(e.message))
             .finally(() => setCargando(false))
-    }, [])
+    }, [limite])
 
     if (cargando) {
         return (
@@ -125,7 +127,15 @@ const AdminStats = () => {
 
             {usuarios.length > 0 && (
                 <div className="admin-table-box">
-                    <h3 className="chart-box__title">Usuarios registrados</h3>
+                    <div className='admin-table-header'>
+                        <h3 className="chart-box__title">Usuarios registrados</h3>
+                        <PageSizeSelector
+                            value={limite}
+                            onChange={setLimite}
+                            options={[5, 10, 20, 50]}
+                            label="usuarios"
+                        />
+                    </div>
                     <div className="admin-table-wrapper">
                         <table className="admin-table">
                             <thead>

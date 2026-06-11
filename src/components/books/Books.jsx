@@ -8,6 +8,7 @@ import { setBooks } from '../../features/bookSlice'
 import { API_URL } from '../../config/config'
 import Paginate from '../common/Paginate'
 import '../../styles/Books.css'
+import PageSizeSelector from '../common/PageSizeSelector'
 
 const Books = () => {
     const books = useSelector(state => state.books.books)
@@ -22,6 +23,7 @@ const Books = () => {
         rating: ''
     })
     const dispatch = useDispatch()
+    const [limite, setLimite] = useState(8)
     const pagination = useSelector(
         state => state.books.pagination
     )
@@ -32,7 +34,7 @@ const Books = () => {
 
             const params = new URLSearchParams()
 
-            params.append('limite', 4)
+            params.append('limite', limite)
             params.append('pagina', pagina)
 
             if (filters.titulo) {
@@ -90,7 +92,7 @@ const Books = () => {
 
         return () => clearTimeout(timeout)
 
-    }, [filters, dispatch])
+    }, [filters, limite, dispatch])
 
     const filteredBooks = books.filter(book => {
 
@@ -124,8 +126,15 @@ const Books = () => {
                     filters={filters}
                     setFilters={setFilters}
                 />
-                <h2 className="books-section__title">Mi estantería</h2>
-
+                <div className='books-header'>
+                    <h2 className="books-section__title">Mi estantería</h2>
+                    <PageSizeSelector
+                        value={limite}
+                        onChange={setLimite}
+                        options={[4, 8, 12]}
+                        label="libros"
+                    />
+                </div>
                 <div className="books-grid">
                     {filteredBooks.length > 0
                         ? filteredBooks.map(book => {
