@@ -103,8 +103,11 @@ const AddBook = () => {
                     setOpciones(data)
                 }
 
-            } catch {
-
+            } catch (error) {
+                console.error(
+                    'Error buscando libros:',
+                    error
+                )
                 if (!cancelado) {
                     setOpciones([])
                 }

@@ -64,7 +64,7 @@ const Books = () => {
             )
 
             if (!res.ok) {
-                throw new Error()
+                throw new Error('No se pudieron obtener los libros')
             }
 
             const data = await res.json()
@@ -79,7 +79,12 @@ const Books = () => {
             )
 
         } catch {
-            console.log('Error filtrando libros')
+            toast.error(
+                e.message || 'Error filtrando libros',
+                {
+                    position: 'bottom-right'
+                }
+            )
         }
 
     }
