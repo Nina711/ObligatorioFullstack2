@@ -59,7 +59,10 @@ const TOOLTIP_OPTIONS = {
 
 const UserStats = () => {
     const books = useSelector(
-    state => state.books.books
+        state => state.books.books
+    )
+    const reviews = useSelector(
+    state => state.reviews
 )
     const [stats, setStats] = useState(null)
     const [cargando, setCargando] = useState(true)
@@ -78,7 +81,7 @@ const UserStats = () => {
             .then(data => setStats(data))
             .catch(e => setError(e.message))
             .finally(() => setCargando(false))
-    }, [books])
+    }, [books, reviews])
 
     if (cargando) {
         return (
@@ -221,6 +224,18 @@ const UserStats = () => {
         },
     }
 
+    const hayLibrosPorEstado = librosPorEstado.some(
+        estado => estado.total > 0
+    )
+
+    const hayLibrosPorGenero = librosPorGenero.some(
+        genero => genero.total > 0
+    )
+
+    const hayGraficos =
+        hayLibrosPorEstado ||
+        hayLibrosPorGenero
+
     return (
         <section className="user-stats">
             <h2 className="user-stats__title">
@@ -262,7 +277,7 @@ const UserStats = () => {
             </div>
 
             <div className="user-stats__charts">
-                {librosPorEstado.length > 0 && (
+                {hayLibrosPorEstado > 0 && (
                     <div className="chart-box">
                         <h3 className="chart-box__title">
                             Estado de lectura
@@ -277,7 +292,7 @@ const UserStats = () => {
                     </div>
                 )}
 
-                {librosPorGenero.length > 0 && (
+                {hayLibrosPorGenero > 0 && (
                     <div className="chart-box">
                         <h3 className="chart-box__title">
                             Libros por género
@@ -313,6 +328,14 @@ const UserStats = () => {
                                 }}
                             />
                         </div>
+                    </div>
+                )}
+
+                {!hayGraficos && (
+                    <div className="chart-box">
+                        <p className="books-empty">
+                            Agrega algunos libros para comenzar a ver estadísticas.
+                        </p>
                     </div>
                 )}
             </div>

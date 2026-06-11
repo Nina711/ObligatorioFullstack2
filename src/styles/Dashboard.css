@@ -49,6 +49,12 @@
   color: var(--primary);
 }
 
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 
 .dashboard-logo img {
   width: 48px;

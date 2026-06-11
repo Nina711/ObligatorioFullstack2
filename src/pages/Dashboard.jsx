@@ -12,6 +12,8 @@ import AdminStats from '../components/user/AdminStats'
 import ThemeToggle from '../components/common/ThemeToggle'
 import { setReviews } from '../features/reviewSlice'
 import '../styles/Dashboard.css'
+import { jwtDecode } from 'jwt-decode'
+import { setUser } from '../features/userSlice'
 
 const Dashboard = () => {
     const dispatch = useDispatch()
@@ -24,6 +26,35 @@ const Dashboard = () => {
             return
         }
     }, [navigate])
+
+    useEffect(() => {
+
+        const token = localStorage.getItem('token')
+
+        if (!token) {
+            navigate('/login')
+            return
+        }
+
+        try {
+
+            const payload = jwtDecode(token)
+
+            dispatch(
+                setUser({
+                    id: payload.idUsu,
+                    rol: payload.rolUsu,
+                    plan: payload.planUsu,
+                    nombreUsu: payload.nombreUsu
+                })
+            )
+
+        } catch {
+            localStorage.removeItem('token')
+            navigate('/login')
+        }
+
+    }, [dispatch, navigate])
 
     useEffect(() => {
 
@@ -80,8 +111,16 @@ const Dashboard = () => {
                     <h1 className="app-header__title">StoryShelf</h1>
                 </div>
                 {rol !== 'Admin' && <ChangePlan />}
-                <ThemeToggle />
-                <button onClick={handleLogout} className="btn">Cerrar sesión</button>
+                <div className="app-header__actions">
+                    <ThemeToggle />
+
+                    <button
+                        onClick={handleLogout}
+                        className="btn"
+                    >
+                        Cerrar sesión
+                    </button>
+                </div>
             </header>
 
             <main className="dashboard">
