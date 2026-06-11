@@ -1,11 +1,10 @@
-import './styles/App.css'
 import { Provider } from 'react-redux'
 import { store } from './store/store.js'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import Dashboard from './Dashboard'
 import SignUp from './SignUp'
 import Login from './Login'
-import RutaNoEncontrada from './pathNotFound'
+import PathNotFound from './PathNotFound'
 import { ToastContainer } from 'react-toastify'
 
 function App() {
@@ -18,7 +17,7 @@ function App() {
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/' element={<Dashboard />} />
-          <Route path='*' element={<pathNotFound />} />
+          <Route path='*' element={<PathNotFound />} />
         </Routes>
       </BrowserRouter>
     </Provider>

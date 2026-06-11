@@ -2,7 +2,7 @@ import { Provider } from 'react-redux'
 import Dashboard from './Dashboard'
 import { store } from './store/store.js'
 import { BrowserRouter, Route, Routes } from 'react-router'
-import RutaNoEncontrada from './RutaNoEncontrada'
+import PathNotFound from './PathNotFound.jsx'
 import Login from './Login'
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
             
             <Route path='/dashboard' element={<Dashboard />}/>
             <Route path='/' element={<Dashboard />}/>
-            <Route path='*' element={<RutaNoEncontrada/>} />
+            <Route path='*' element={<PathNotFound/>} />
         </Routes>
       </BrowserRouter>
     </Provider>
