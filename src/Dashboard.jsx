@@ -31,19 +31,8 @@ const Dashboard = () => {
 
             try {
 
-                const booksRes = await fetch(
-                    `${API_URL}/v1/libros?limite=10&pagina=1`,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization:
-                                localStorage.getItem('token')
-                        }
-                    }
-                )
-
                 const reviewsRes = await fetch(
-                    `${API_URL}/v1/reviews?limite=100&pagina=1`,
+                    `${API_URL}/v1/reviews?limite=4&pagina=1`,
                     {
                         headers: {
                             'Content-Type': 'application/json',
@@ -53,21 +42,14 @@ const Dashboard = () => {
                     }
                 )
 
-                if (booksRes.status === 401) {
+                if (reviewsRes.status === 401) {
                     localStorage.removeItem('token')
                     navigate('/login')
                     return
                 }
 
-                const booksData =
-                    await booksRes.json()
-
                 const reviewsData =
                     await reviewsRes.json()
-
-                dispatch(
-                    setBooks(booksData.libro)
-                )
 
                 dispatch(
                     setReviews(reviewsData.reviews)

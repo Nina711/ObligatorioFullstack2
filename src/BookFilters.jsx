@@ -3,7 +3,7 @@ import React from 'react'
 const BookFilters = ({ filters, setFilters }) => {
     return (
         <section className="book-filters-section">
-            
+
             <h2 className="books-section__title">Filtra tu estantería</h2>
 
             <div className="book-filters">

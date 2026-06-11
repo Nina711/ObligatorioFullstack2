@@ -2,12 +2,39 @@ import { useEffect, useState } from 'react'
 import { API_URL } from './config'
 import './styles/UserStats.css'
 import './styles/AdminStats.css'
+import Paginate from './Paginate.jsx'
 
 const AdminStats = () => {
     const [stats, setStats] = useState(null)
     const [usuarios, setUsuarios] = useState([])
     const [cargando, setCargando] = useState(true)
     const [error, setError] = useState('')
+    const [pagination, setPagination] = useState({
+        total: 0,
+        totalPaginas: 1
+    })
+
+    const cargarUsuarios = async (paginaActual = 1) => {
+
+        const token = localStorage.getItem('token')
+
+        const res = await fetch(
+            `${API_URL}/v1/admin/usuarios?limite=10&pagina=${paginaActual}`,
+            {
+                headers: {
+                    Authorization: token
+                }
+            }
+        )
+
+        if (!res.ok) {
+            throw new Error(
+                'No se pudieron cargar los usuarios'
+            )
+        }
+
+        return await res.json()
+    }
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -18,14 +45,15 @@ const AdminStats = () => {
                 if (r.ok) return r.json()
                 throw new Error('No se pudieron cargar las estadísticas')
             }),
-            fetch(`${API_URL}/v1/admin/usuarios?limite=50&pagina=1`, { headers }).then(r => {
-                if (r.ok) return r.json()
-                throw new Error('No se pudieron cargar los usuarios')
-            })
+            cargarUsuarios(1)
         ])
             .then(([statsData, usuariosData]) => {
                 setStats(statsData)
                 setUsuarios(usuariosData.usuariosTodos ?? [])
+                setPagination({
+                    total: usuariosData.total,
+                    totalPaginas: usuariosData.totalPaginas
+                })
             })
             .catch(e => setError(e.message))
             .finally(() => setCargando(false))
@@ -48,6 +76,31 @@ const AdminStats = () => {
     }
 
     if (!stats) return null
+
+    const obtenerPaginaUsuarios = async (
+        numeroPagina
+    ) => {
+
+        try {
+
+            const data =
+                await cargarUsuarios(numeroPagina)
+
+            setUsuarios(
+                data.usuariosTodos ?? []
+            )
+
+            setPagination({
+                total: data.total,
+                totalPaginas: data.totalPaginas
+            })
+
+        } catch (e) {
+
+            setError(e.message)
+
+        }
+    }
 
     const { totalUsuarios, totalLibros, totalLibrosLeidos } = stats
 
@@ -101,6 +154,10 @@ const AdminStats = () => {
                             </tbody>
                         </table>
                     </div>
+                    <Paginate
+                        totalPaginas={pagination.totalPaginas}
+                        onPageChange={obtenerPaginaUsuarios}
+                    />
                 </div>
             )}
         </section>

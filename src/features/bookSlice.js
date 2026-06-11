@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    books: []
+    books: [],
+    pagination: {
+        total: 0,
+        totalPaginas: 1
+    }
 }
 
 export const bookSlice = createSlice({
@@ -9,10 +13,12 @@ export const bookSlice = createSlice({
     initialState,
     reducers: {
         setBooks: (state, action) => {
-            state.books = action.payload
+            state.books = action.payload.books
+            state.pagination = {total: action.payload.total, totalPaginas: action.payload.totalPaginas}
         },
         addBook: (state, action) => {
             const newBook = { ...action.payload}
+            state.books.push(newBook)
         },
         deleteBook: (state, action) => {
             state.books = state.books.filter(book => book.id != action.payload)

@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setBooks } from './features/bookSlice'
 import { API_URL } from './config'
+import Paginate from './Paginate'
 
 const Books = () => {
     const books = useSelector(state => state.books.books)
@@ -20,61 +21,69 @@ const Books = () => {
         rating: ''
     })
     const dispatch = useDispatch()
+    const pagination = useSelector(
+        state => state.books.pagination
+    )
+
+    const obtenerLibrosFiltrados = async (pagina = 1) => {
+
+        try {
+
+            const params = new URLSearchParams()
+
+            params.append('limite', 4)
+            params.append('pagina', pagina)
+
+            if (filters.titulo) {
+                params.append('titulo', filters.titulo)
+            }
+
+            if (filters.autor) {
+                params.append('autor', filters.autor)
+            }
+
+            if (filters.genero) {
+                params.append('genero', filters.genero)
+            }
+
+            if (filters.estado) {
+                params.append('estado', filters.estado)
+            }
+
+            const res = await fetch(
+                `${API_URL}/v1/libros?${params.toString()}`,
+                {
+                    headers: {
+                        Authorization:
+                            localStorage.getItem('token')
+                    }
+                }
+            )
+
+            if (!res.ok) {
+                throw new Error()
+            }
+
+            const data = await res.json()
+            console.log(data)
+
+            dispatch(
+                setBooks({
+                    books: data.libro,
+                    total: data.total,
+                    totalPaginas: data.totalPaginas
+                })
+            )
+
+        } catch {
+            console.log('Error filtrando libros')
+        }
+
+    }
 
     useEffect(() => {
 
         const timeout = setTimeout(() => {
-            const obtenerLibrosFiltrados = async () => {
-
-                try {
-
-                    const params = new URLSearchParams()
-
-                    params.append('limite', 50)
-                    params.append('pagina', 1)
-
-                    if (filters.titulo) {
-                        params.append('titulo', filters.titulo)
-                    }
-
-                    if (filters.autor) {
-                        params.append('autor', filters.autor)
-                    }
-
-                    if (filters.genero) {
-                        params.append('genero', filters.genero)
-                    }
-
-                    if (filters.estado) {
-                        params.append('estado', filters.estado)
-                    }
-
-                    const res = await fetch(
-                        `${API_URL}/v1/libros?${params.toString()}`,
-                        {
-                            headers: {
-                                Authorization:
-                                    localStorage.getItem('token')
-                            }
-                        }
-                    )
-
-                    if (!res.ok) {
-                        throw new Error()
-                    }
-
-                    const data = await res.json()
-
-                    dispatch(
-                        setBooks(data.libro)
-                    )
-
-                } catch {
-                    console.log('Error filtrando libros')
-                }
-
-            }
-
             obtenerLibrosFiltrados()
         }, 400)
 
@@ -99,6 +108,13 @@ const Books = () => {
 
     })
 
+    const hayFiltrosActivos =
+        filters.titulo ||
+        filters.autor ||
+        filters.genero ||
+        filters.estado ||
+        filters.rating
+
 
     return (
         <>
@@ -108,6 +124,7 @@ const Books = () => {
                     setFilters={setFilters}
                 />
                 <h2 className="books-section__title">Mi estantería</h2>
+                <p>Mostrando 4 libros por página</p>
 
                 <div className="books-grid">
                     {filteredBooks.length > 0
@@ -129,9 +146,18 @@ const Books = () => {
                                 />
                             )
                         })
-                        : <p className="books-empty">No tienes libros en tu estantería aún.</p>
+                        : <p className="books-empty">
+                            {
+                                hayFiltrosActivos
+                                    ? 'No se encontraron libros que coincidan con los filtros seleccionados.'
+                                    : 'No tienes libros en tu estantería aún.'
+                            }
+                        </p>
                     }
                 </div>
+                <Paginate
+                    totalPaginas={pagination.totalPaginas}
+                    onPageChange={obtenerLibrosFiltrados} />
             </section>
             <Recommendations />
         </>
