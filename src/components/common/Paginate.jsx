@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactPaginateLib from 'react-paginate'
 import { useSelector } from 'react-redux'
-import './styles/Paginate.css'
+import '../../styles/Paginate.css'
 
 const ReactPaginate = ReactPaginateLib.default
 

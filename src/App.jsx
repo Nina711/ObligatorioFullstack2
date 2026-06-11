@@ -1,10 +1,10 @@
 import { Provider } from 'react-redux'
 import { store } from './store/store.js'
 import { BrowserRouter, Route, Routes } from 'react-router'
-import Dashboard from './Dashboard'
-import SignUp from './SignUp'
-import Login from './Login'
-import PathNotFound from './PathNotFound'
+import Dashboard from './pages/Dashboard.jsx'
+import SignUp from './pages/SignUp.jsx'
+import Login from './pages/Login.jsx'
+import PathNotFound from './pages/PathNotFound.jsx'
 import { ToastContainer } from 'react-toastify'
 
 function App() {

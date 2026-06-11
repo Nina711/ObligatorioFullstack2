@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
-import { API_URL } from './config'
+import { API_URL } from '../config/config'
 import { useDispatch } from 'react-redux'
-import { setUser } from './features/userSlice'
+import { setUser } from '../features/userSlice'
 import { jwtDecode } from 'jwt-decode'
-import logo from '../public/logo.svg'
+import '../styles/Login.css'
 
 const Login = () => {
     const navigate = useNavigate()
@@ -69,7 +69,7 @@ const Login = () => {
             <div className="login-card">
                 <div className="login-card__header">
                     <div className="login-logo">
-                        <img src={logo} alt="StoryShelf" />
+                        <img src="/logo.svg" alt="Logo" />
                     </div>
                     <h1>StoryShelf</h1>
                     <p className="login-card__subtitle">

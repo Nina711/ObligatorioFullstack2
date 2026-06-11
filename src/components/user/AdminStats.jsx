@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { API_URL } from './config'
-import './styles/UserStats.css'
-import './styles/AdminStats.css'
-import Paginate from './Paginate.jsx'
+import { API_URL } from '../../config/config.js'
+import '../../styles/UserStats.css'
+import '../../styles/AdminStats.css'
+import Paginate from '../common/Paginate.jsx'
 
 const AdminStats = () => {
     const [stats, setStats] = useState(null)

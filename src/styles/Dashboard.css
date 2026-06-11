@@ -1,0 +1,56 @@
+.dashboard {
+  padding: 32px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 32px;
+}
+
+@media (max-width: 700px) {
+  .dashboard {
+    padding: 20px;
+  }
+}
+
+.dashboard-logo {
+  display: flex;
+  justify-content: center;
+}
+
+/* ── App Header ── */
+.app-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 24px 40px;
+
+  background: white;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-header__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.app-header__ornament {
+  color: var(--primary);
+}
+
+
+.dashboard-logo img {
+  width: 48px;
+  height: auto;
+}

@@ -1,0 +1,147 @@
+/* ── Book Card ── */
+.books-section__title {
+  font-size: 1.4rem;
+}
+
+.books-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+
+  gap: 20px;
+
+  margin-top: 20px;
+}
+
+.books-empty {
+  text-align: center;
+
+  color: var(--text-faded);
+
+  padding: 40px;
+}
+
+.book-card {
+  background: white;
+
+  border-radius: 20px;
+
+  border: 1px solid var(--border);
+
+  box-shadow: 0 4px 20px var(--shadow);
+
+  transition: .2s;
+
+  overflow: hidden;
+}
+
+.book-card:hover {
+  transform: translateY(-3px);
+}
+
+.book-card__spine {
+  display: none;
+}
+
+.book-card__body {
+  padding: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  height: 100%;
+}
+
+.book-card__title {
+  font-size: 1.1rem;
+
+  font-weight: 600;
+
+  margin-bottom: 8px;
+
+  color: var(--text);
+}
+
+.book-card__genre {
+  display: inline-flex;
+
+  width: fit-content;
+
+  background: rgba(107, 99, 255, .12);
+
+  color: var(--primary);
+
+  border-radius: 999px;
+
+  padding: 4px 10px;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  margin-bottom: 10px;
+}
+
+.book-card__author {
+  color: var(--text-light);
+
+  margin-bottom: 12px;
+}
+
+.book-card__description {
+  color: var(--text-faded);
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  margin-bottom: 16px;
+}
+
+.book-card__state {
+  margin-top: auto;
+
+  width: fit-content;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+.book-card__state--leyendo {
+  background: rgba(107, 99, 255, .12);
+  color: var(--primary);
+}
+
+.book-card__state--leido {
+  background: rgba(54, 179, 126, .12);
+  color: var(--success);
+}
+
+.book-card__actions {
+  display: flex;
+
+  gap: 8px;
+
+  margin-top: 16px;
+}
+
+.book-card--editing .book-card__body {
+  gap: 10px;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left,
+      rgba(143, 135, 255, .18),
+      transparent 35%),
+    radial-gradient(circle at bottom right,
+      rgba(107, 99, 255, .15),
+      transparent 30%),
+    var(--bg-page);
+}

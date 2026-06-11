@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { API_URL } from './config'
+import { API_URL } from '../config/config'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-import { setUser } from './features/userSlice'
+import { setUser } from '../features/userSlice'
 import { jwtDecode } from 'jwt-decode'
-import logo from '../public/logo.svg'
 import { toast } from 'react-toastify'
+import '../styles/SignUp.css'
 
 const SignUp = () => {
     const navigate = useNavigate()
@@ -82,7 +82,7 @@ const SignUp = () => {
             <div className="login-card login-card--wide">
                 <div className="login-card__header">
                     <div className="signUp-logo">
-                        <img src={logo} alt="StoryShelf" />
+                        <img src="/logo.svg" alt="Logo" />
                     </div>
                     <h1>Crear Cuenta</h1>
                     <p className="login-card__subtitle"><i>Organiza tus lecturas y construye tu biblioteca ideal.</i></p>

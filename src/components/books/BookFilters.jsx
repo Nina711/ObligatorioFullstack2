@@ -1,4 +1,5 @@
 import React from 'react'
+import '../../styles/BookFilters.css'
 
 const BookFilters = ({ filters, setFilters }) => {
     return (

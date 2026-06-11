@@ -1,9 +1,10 @@
 import { useDispatch } from 'react-redux'
-import { addBook } from './features/bookSlice'
-import { API_URL } from './config'
+import { addBook } from '../../features/bookSlice'
+import { API_URL } from '../../config/config'
 import { useForm } from 'react-hook-form'
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
+import '../../styles/AddBook.css'
 
 const AddBook = () => {
     const dispatch = useDispatch()

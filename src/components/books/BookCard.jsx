@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { deleteBook, updateBook } from "./features/bookSlice"
-import { API_URL } from "./config"
+import { deleteBook, updateBook } from "../../features/bookSlice"
+import { API_URL } from "../../config/config"
 import { useForm } from "react-hook-form"
-import { addReview, deleteReview } from "./features/reviewSlice"
-import AddReview from "./AddReview"
+import { addReview, deleteReview } from "../../features/reviewSlice"
+import AddReview from "../books/AddReview"
 import ReactModal from "react-modal"
 import { toast } from 'react-toastify'
 

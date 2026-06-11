@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import './styles/ThemeToggle.css'
+import '../../styles/ThemeToggle.css'
 
 const ThemeToggle = () => {
     const [dark, setDark] = useState(() => localStorage.getItem('theme') === 'dark')

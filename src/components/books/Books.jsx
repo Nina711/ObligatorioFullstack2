@@ -1,12 +1,13 @@
 import { useSelector } from 'react-redux'
 import BookCard from './BookCard'
-import Recommendations from './Recommendations'
+import Recommendations from '../books/Recommendations'
 import BookFilters from './BookFilters'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setBooks } from './features/bookSlice'
-import { API_URL } from './config'
-import Paginate from './Paginate'
+import { setBooks } from '../../features/bookSlice'
+import { API_URL } from '../../config/config'
+import Paginate from '../common/Paginate'
+import '../../styles/Books.css'
 
 const Books = () => {
     const books = useSelector(state => state.books.books)

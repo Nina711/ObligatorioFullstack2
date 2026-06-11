@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { API_URL } from './config'
+import { API_URL } from '../../config/config'
+import '../../styles/Recommendations.css'
 
 const Recommendations = () => {
   const books = useSelector(state => state.books.books)

@@ -1,3 +1,5 @@
+import '../styles/PathNotFound.css'
+
 const PathNotFound = () => {
 
   return (

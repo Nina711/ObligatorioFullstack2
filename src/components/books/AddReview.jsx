@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { API_URL } from "./config"
+import { API_URL } from "../../config/config"
 import { toast } from 'react-toastify'
+import '../../styles/AddReview.css'
 
 
 const AddReview = ({ bookId, onReviewCreated, onCancel }) => {

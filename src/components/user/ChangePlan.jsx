@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { API_URL } from './config'
-import { setPlan } from './features/userSlice'
+import { API_URL } from '../../config/config'
+import { setPlan } from '../../features/userSlice'
+import '../../styles/ChangePlan.css'
 
 const ChangePlan = () => {
     const dispatch = useDispatch()
@@ -73,13 +74,13 @@ const ChangePlan = () => {
                     </button>
                 </>
             ) : (
-                <p className="login-card__success">
+                <p className="changePlan__success">
                     No tienes límite para agregar libros.
                 </p>
             )}
 
             {error && (
-                <p className="login-card__error">
+                <p className="changePlan__error">
                     {error}
                 </p>
             )}

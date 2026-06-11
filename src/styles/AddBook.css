@@ -1,0 +1,139 @@
+/* ── Books section ── */
+.add-book {
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 28px;
+
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.add-book__title {
+  font-size: 1.4rem;
+}
+
+.add-book__form {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
+
+  margin-top: 20px;
+}
+
+.add-book__form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.add-book__form .form-field--full {
+  grid-column: 1 / -1;
+}
+
+.add-book__form label {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.add-book__actions {
+  grid-column: 1 / -1;
+
+  display: flex;
+
+  justify-content: flex-end;
+}
+
+.add-book__footer {
+  grid-column: 1 / -1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  gap: 8px;
+}
+
+.add-book__actions {
+  display: flex;
+
+  gap: 12px;
+}
+
+.success-message {
+  color: var(--success);
+
+  font-size: 14px;
+
+  font-weight: 500;
+}
+
+.book-suggestions {
+  position: absolute;
+
+  top: calc(100% + 6px);
+
+  left: 0;
+
+  width: 100%;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 16px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+
+  overflow: hidden;
+
+  z-index: 100;
+}
+
+.book-suggestion {
+  padding: 14px 18px;
+
+  cursor: pointer;
+
+  transition: all .2s ease;
+
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+
+.book-suggestion:last-child {
+  border-bottom: none;
+}
+
+.book-suggestion:hover {
+  background: rgba(107, 99, 255, .08);
+
+  transform: translateX(4px);
+}
+
+.book-suggestion strong {
+  display: block;
+
+  color: var(--text);
+
+  font-size: .95rem;
+
+  margin-bottom: 4px;
+}
+
+.book-suggestion p {
+  color: var(--text-light);
+
+  font-size: .85rem;
+
+  margin: 0;
+}
+
+.login-card__error {
+  color: var(--danger);
+  font-size: 13px;
+}

@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setBooks } from './features/bookSlice'
+import { setBooks } from '../features/bookSlice'
 import { useNavigate } from 'react-router'
-import { API_URL } from './config'
-import AddBook from './AddBook'
-import Books from './Books'
+import { API_URL } from '../config/config'
+import AddBook from '../components/books/AddBook'
+import Books from '../components/books/Books'
 import { useSelector } from 'react-redux'
-import ChangePlan from './ChangePlan'
-import UserStats from './UserStats'
-import AdminStats from './AdminStats'
-import ThemeToggle from './ThemeToggle'
-import logo from '../public/logo.svg'
-import { setReviews } from './features/reviewSlice'
+import ChangePlan from '../components/user/ChangePlan'
+import UserStats from '../components/user/UserStats'
+import AdminStats from '../components/user/AdminStats'
+import ThemeToggle from '../components/common/ThemeToggle'
+import { setReviews } from '../features/reviewSlice'
+import '../styles/Dashboard.css'
 
 const Dashboard = () => {
     const dispatch = useDispatch()
@@ -75,7 +75,7 @@ const Dashboard = () => {
             <header className="app-header">
                 <div className="app-header__brand">
                     <div className="dashboard-logo">
-                        <img src={logo} alt="StoryShelf" />
+                        <img src="/logo.svg" alt="Logo" />
                     </div>
                     <h1 className="app-header__title">StoryShelf</h1>
                 </div>

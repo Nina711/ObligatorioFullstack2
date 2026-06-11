@@ -9,8 +9,8 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js'
-import { API_URL } from './config'
-import './styles/UserStats.css'
+import { API_URL } from '../../config/config'
+import '../../styles/UserStats.css'
 import { useSelector } from 'react-redux'
 
 ChartJS.register(
